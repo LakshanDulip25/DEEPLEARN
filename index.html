@@ -154,33 +154,6 @@
          /* Mute button icon size */
          #mute-btn i { font-size: 0.9rem; }
           @media (min-width: 768px) { #mute-btn i { font-size: 1rem; } }
-          /* Login/Logout button styling */
-         #login-modal-btn, #logout-btn {
-             font-size: 0.75rem; /* Smaller text */
-             width: auto !important; /* Allow button to size to content */
-             height: auto !important;
-             padding: 0.3rem 0.8rem; /* Adjust padding */
-             border-radius: 0.375rem; /* Rounded corners */
-         }
-
-
-        /* Auth Modal Styling - Simplified for Google Sign In */
-        #auth-modal-backdrop { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); z-index: 1000; display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
-        #auth-modal-backdrop.visible { display: flex; align-items: center; justify-content: center; opacity: 1; }
-        #auth-modal { background-color: #1f2937; border-radius: 0.75rem; padding: 2rem 2.5rem; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); width: 90%; max-width: 360px; border: 1px solid #4b5563; opacity: 0; transform: scale(0.95); transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; text-align: center; }
-        #auth-modal-backdrop.visible #auth-modal { opacity: 1; transform: scale(1); }
-        #auth-modal h3 { color: #e5e7eb; margin-bottom: 1.5rem; font-size: 1.25rem; font-weight: 600;}
-        #auth-error { color: #f87171; font-size: 0.875rem; margin-top: 1rem; min-height: 1.25rem; display: none; }
-        #google-signin-btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            padding: 0.6rem 1.5rem; border-radius: 0.375rem; font-weight: 500;
-            cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease;
-            border: none; background-color: #4285F4; color: white; margin-bottom: 1rem;
-        }
-        #google-signin-btn:hover { background-color: #357ae8; }
-        #google-signin-btn i { margin-right: 0.75rem; font-size: 1.1rem;}
-        #auth-cancel-btn { background-color: #4b5563; color: #e5e7eb; width: 100%; padding: 0.6rem 1rem; border-radius: 0.375rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s ease; border: none; }
-        #auth-cancel-btn:hover { background-color: #6b7280; }
 
 
         /* Summary Area Wrapper */
@@ -210,29 +183,85 @@
         button.edit-pdf-btn:hover { background: linear-gradient(145deg, #0284c7, #0369a1); }
 
 
-        /* Action Buttons Container - Added Margin */
-        .action-buttons-container { margin-top: 1.5rem; /* Add space above the buttons */ }
-
-        /* Admin Button Styling - Hide by default */
-        .admin-button {
-            display: none;
+        /* Action Buttons Container */
+        .action-buttons-container {
+            margin-top: 1.5rem;
+            position: relative; /* Needed for absolute positioning of menu */
         }
-        /* Show admin buttons when body has .admin-logged-in class */
-        body.admin-logged-in .admin-button {
+
+        /* Admin Edit Toggle Button */
+        .admin-edit-toggle {
+            position: absolute;
+            top: -2.5rem; /* Position above the action buttons container */
+            right: 0.5rem;
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 50%;
+            background-color: rgba(99, 102, 241, 0.7); /* indigo */
+            border: 1px solid rgba(129, 140, 248, 0.5);
+            cursor: pointer;
+            z-index: 10;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.2s ease;
+        }
+        .admin-edit-toggle:hover {
+            background-color: rgba(79, 70, 229, 0.9);
+            transform: scale(1.1);
+        }
+        /* Show toggle only in admin mode */
+        body.admin-mode .admin-edit-toggle {
             display: inline-flex;
+        }
+
+        /* Admin Actions Menu (Dropdown/Popup) */
+        .admin-actions-menu {
+            position: absolute;
+            top: -0.5rem; /* Position near the toggle button */
+            right: 3.0rem; /* To the left of the toggle button */
+            background-color: rgba(55, 65, 81, 0.95); /* gray-700 */
+            backdrop-filter: blur(5px);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 11;
+            display: none; /* Hidden by default */
+            flex-direction: column; /* Stack buttons vertically */
+            gap: 0.5rem;
+            width: max-content; /* Adjust width to content */
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+            transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+        }
+        .admin-actions-menu.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        /* Style buttons inside the menu */
+        .admin-actions-menu .action-button {
+            width: 100%; /* Make buttons fill menu width */
+            flex-grow: 0; /* Don't allow flex-grow */
+            font-size: 0.8rem; /* Slightly smaller text */
+            padding: 0.5rem 0.8rem;
+        }
+        .admin-actions-menu .action-button svg {
+            width: 1rem; height: 1rem; margin-right: 0.3rem;
         }
 
 
         #content-display-area { min-height: 300px; background: rgba(17, 24, 39, 0.6); border-radius: 1rem; }
 
         /* Styles for contentEditable and Toolbar */
-        .summary-content { padding: 1rem; border: 1px solid transparent; border-radius: 0.5rem; min-height: 120px; background: rgba(55, 65, 81, 0.3); transition: border 0.3s ease, background-color 0.3s ease; line-height: 1.7; position: relative; }
+        .summary-content { padding: 1rem; border: 1px solid transparent; border-radius: 0.5rem; min-height: 120px; background: rgba(55, 65, 81, 0.3); transition: border 0.3s ease, background-color 0.3s ease, background-image 0.3s ease; line-height: 1.7; position: relative; }
         .summary-content[contenteditable="true"] { border: 1px solid #4b5563; min-height: 150px; background-color: #374151; color: #e5e7eb; outline: none; border-radius: 0 0 0.5rem 0.5rem; }
         .summary-content[contenteditable="true"]:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); }
         .editor-toolbar { display: none; background-color: #1f2937; padding: 0.6rem; border-radius: 0.5rem 0.5rem 0 0; border: 1px solid #4b5563; border-bottom: none; margin-bottom: 0px; flex-wrap: wrap; gap: 0.4rem; }
-        /* Show toolbar only when logged in AND editing */
-        body.admin-logged-in .summary-content[contenteditable="true"] ~ .action-buttons-container .editor-toolbar, /* Adjust selector if needed */
-        body.admin-logged-in .summary-wrapper .editor-toolbar.visible {
+        /* Show toolbar only when editing (admin check happens before edit is enabled) */
+        .summary-content[contenteditable="true"] ~ .action-buttons-container .editor-toolbar,
+        .summary-wrapper .editor-toolbar.visible {
              display: flex;
         }
         .editor-toolbar button, .editor-toolbar input[type="color"] { background-color: #4b5563; color: #e5e7eb; border: none; padding: 0.35rem 0.65rem; border-radius: 0.375rem; cursor: pointer; font-size: 0.85rem; transition: background-color 0.2s ease, transform 0.1s ease; }
@@ -260,14 +289,7 @@
 
     <div class="container mx-auto max-w-6xl main-container rounded-2xl p-6 md:p-10 relative">
 
-        <div id="auth-status" class="absolute top-4 right-4 text-sm text-gray-400 flex items-center gap-3">
-            <span id="user-email" class="hidden"></span>
-            <button id="login-modal-btn" class="dashboard-button text-xs !w-auto !h-auto px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white">Login</button>
-            <button id="logout-btn" class="dashboard-button text-xs !w-auto !h-auto px-3 py-1 bg-red-600 hover:bg-red-700 text-white hidden">Logout</button>
-        </div>
-
-
-        <header class="mb-8 text-center border-b border-gray-700/50 pb-6 pt-12"> <h1 id="main-title" data-key="main_title" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-indigo-400 mb-2">Unit 5: Computer Operating System</h1>
+        <header class="mb-8 text-center border-b border-gray-700/50 pb-6 pt-4"> <h1 id="main-title" data-key="main_title" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-indigo-400 mb-2">Unit 5: Computer Operating System</h1>
             <p id="main-subtitle" data-key="main_subtitle" class="text-gray-400 mt-2 text-base md:text-lg">Using operating systems to manage the functionality of computers.</p>
         </header>
 
@@ -293,7 +315,9 @@
 
             <main id="content-display-area" class="w-full md:w-2/3 lg:w-3/4 md:flex-grow p-6 rounded-xl border border-gray-700/30 shadow-lg">
                 <div id="topic-5-1" class="content-section">
-                    <h2 data-key="title_5_1" class="text-2xl font-semibold text-teal-300 mb-5">5.1 Intro & Evolution</h2>
+                    <div class="flex justify-between items-start"> <h2 data-key="title_5_1" class="text-2xl font-semibold text-teal-300 mb-5">5.1 Intro & Evolution</h2>
+                         <button class="admin-edit-toggle admin-button" data-menu-target="admin-actions-5-1" title="Admin Actions"><i class="fas fa-cog"></i></button>
+                    </div>
                     <div class="pt-6 border-t border-gray-600/50">
                         <h3 data-key="video_title_5_1" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3>
                         <div class="video-wrapper mb-6">
@@ -304,30 +328,59 @@
                         <div id="toolbar-topic-5-1-summary" class="editor-toolbar"> <button data-command="bold" title="Bold"><b>B</b></button> <button data-command="italic" title="Italic"><i>I</i></button> <button data-command="underline" title="Underline"><u>U</u></button> <button data-command="justifyLeft" title="Align Left">L</button> <button data-command="justifyCenter" title="Align Center">C</button> <button data-command="justifyRight" title="Align Right">R</button> <button data-command="insertUnorderedList" title="Bullet List">• List</button> <button data-command="insertOrderedList" title="Numbered List">1. List</button> <button data-command="createLink" title="Link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757a4.5 4.5 0 016.364 0l1.757 1.757a.75.75 0 11-1.06 1.06l-1.757-1.757a3 3 0 00-4.243 0l-1.757 1.757a3 3 0 104.243 4.243l4.5-4.5a3 3 0 00-1.242-5.244zM12.75 8.688a.75.75 0 00-1.06 1.06l1.757 1.757a3 3 0 010 4.243l-1.757 1.757a.75.75 0 101.06 1.06l1.757-1.757a4.5 4.5 0 000-6.364l-1.757-1.757z" /></svg></button> <input type="color" data-command="foreColor" title="Text Color"> </div>
                         <div id="topic-5-1-summary" class="summary-content gradient-default prose prose-invert max-w-none text-gray-300"></div>
                     </div>
-                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 action-buttons-container">
+                    <div class="action-buttons-container">
                         <a href="#" target="_blank" data-key="pdf_link_text_5_1" id="pdf-link-5-1" class="action-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg> Download PDF </a>
-                        <button data-summary-id="topic-5-1-summary" data-key="edit_btn_5_1" class="action-button edit-save-btn admin-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /> <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /> </svg> Edit Summary </button>
-                        <button data-target-iframe="video-iframe-5-1" data-key="edit_video_btn_5_1" class="action-button edit-video-btn admin-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8H5v-2h10v2z" clip-rule="evenodd" /></svg> Set Video Link </button>
-                        <button data-target-pdf="pdf-link-5-1" data-key="edit_pdf_btn_5_1" class="action-button edit-pdf-btn admin-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h4a1 1 0 100-2H7z" clip-rule="evenodd" /></svg> Set PDF Link </button>
+                        <div id="admin-actions-5-1" class="admin-actions-menu">
+                            <button data-summary-id="topic-5-1-summary" data-key="edit_btn_5_1" class="action-button edit-save-btn admin-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /> <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /> </svg> Edit Summary </button>
+                            <button data-target-iframe="video-iframe-5-1" data-key="edit_video_btn_5_1" class="action-button edit-video-btn admin-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8H5v-2h10v2z" clip-rule="evenodd" /></svg> Set Video Link </button>
+                            <button data-target-pdf="pdf-link-5-1" data-key="edit_pdf_btn_5_1" class="action-button edit-pdf-btn admin-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h4a1 1 0 100-2H7z" clip-rule="evenodd" /></svg> Set PDF Link </button>
+                        </div>
                     </div>
                  </div>
                 <div id="topic-5-2" class="content-section">
-                    <h2 data-key="title_5_2" class="text-2xl font-semibold text-teal-300 mb-5">5.2 File Management</h2>
+                    <div class="flex justify-between items-start">
+                         <h2 data-key="title_5_2" class="text-2xl font-semibold text-teal-300 mb-5">5.2 File Management</h2>
+                         <button class="admin-edit-toggle admin-button" data-menu-target="admin-actions-5-2" title="Admin Actions"><i class="fas fa-cog"></i></button>
+                    </div>
                     <div class="pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_5_2" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe id="video-iframe-5-2" src="https://www.youtube.com/embed/placeholder_video_id_1_38" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> </div>
                     <div class="summary-wrapper"> <div id="toolbar-topic-5-2-summary" class="editor-toolbar"> ... </div> <div id="topic-5-2-summary" class="summary-content gradient-default prose prose-invert max-w-none text-gray-300"></div> </div>
-                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 action-buttons-container"> <a href="#" target="_blank" data-key="pdf_link_text_5_2" id="pdf-link-5-2" class="action-button inline-flex items-center">...</a> <button data-summary-id="topic-5-2-summary" data-key="edit_btn_5_2" class="action-button edit-save-btn admin-button inline-flex items-center">...</button> <button data-target-iframe="video-iframe-5-2" data-key="edit_video_btn_5_2" class="action-button edit-video-btn admin-button inline-flex items-center">...</button> <button data-target-pdf="pdf-link-5-2" data-key="edit_pdf_btn_5_2" class="action-button edit-pdf-btn admin-button inline-flex items-center">...</button> </div>
+                    <div class="action-buttons-container"> <a href="#" target="_blank" data-key="pdf_link_text_5_2" id="pdf-link-5-2" class="action-button inline-flex items-center">...</a>
+                         <div id="admin-actions-5-2" class="admin-actions-menu">
+                            <button data-summary-id="topic-5-2-summary" data-key="edit_btn_5_2" class="action-button edit-save-btn admin-button inline-flex items-center">...</button>
+                            <button data-target-iframe="video-iframe-5-2" data-key="edit_video_btn_5_2" class="action-button edit-video-btn admin-button inline-flex items-center">...</button>
+                            <button data-target-pdf="pdf-link-5-2" data-key="edit_pdf_btn_5_2" class="action-button edit-pdf-btn admin-button inline-flex items-center">...</button>
+                         </div>
+                     </div>
                 </div>
                  <div id="topic-5-3" class="content-section">
-                    <h2 data-key="title_5_3" class="text-2xl font-semibold text-teal-300 mb-5">5.3 Process Management</h2>
+                     <div class="flex justify-between items-start">
+                         <h2 data-key="title_5_3" class="text-2xl font-semibold text-teal-300 mb-5">5.3 Process Management</h2>
+                         <button class="admin-edit-toggle admin-button" data-menu-target="admin-actions-5-3" title="Admin Actions"><i class="fas fa-cog"></i></button>
+                     </div>
                     <div class="pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_5_3" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe id="video-iframe-5-3" src="https://www.youtube.com/embed/placeholder_video_id_1_39" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> </div>
                     <div class="summary-wrapper"> <div id="toolbar-topic-5-3-summary" class="editor-toolbar"> ... </div> <div id="topic-5-3-summary" class="summary-content gradient-default prose prose-invert max-w-none text-gray-300"></div> </div>
-                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 action-buttons-container"> <a href="#" target="_blank" data-key="pdf_link_text_5_3" id="pdf-link-5-3" class="action-button inline-flex items-center">...</a> <button data-summary-id="topic-5-3-summary" data-key="edit_btn_5_3" class="action-button edit-save-btn admin-button inline-flex items-center">...</button> <button data-target-iframe="video-iframe-5-3" data-key="edit_video_btn_5_3" class="action-button edit-video-btn admin-button inline-flex items-center">...</button> <button data-target-pdf="pdf-link-5-3" data-key="edit_pdf_btn_5_3" class="action-button edit-pdf-btn admin-button inline-flex items-center">...</button> </div>
+                    <div class="action-buttons-container"> <a href="#" target="_blank" data-key="pdf_link_text_5_3" id="pdf-link-5-3" class="action-button inline-flex items-center">...</a>
+                        <div id="admin-actions-5-3" class="admin-actions-menu">
+                            <button data-summary-id="topic-5-3-summary" data-key="edit_btn_5_3" class="action-button edit-save-btn admin-button inline-flex items-center">...</button>
+                            <button data-target-iframe="video-iframe-5-3" data-key="edit_video_btn_5_3" class="action-button edit-video-btn admin-button inline-flex items-center">...</button>
+                            <button data-target-pdf="pdf-link-5-3" data-key="edit_pdf_btn_5_3" class="action-button edit-pdf-btn admin-button inline-flex items-center">...</button>
+                        </div>
+                    </div>
                  </div>
                  <div id="topic-5-4" class="content-section">
-                    <h2 data-key="title_5_4" class="text-2xl font-semibold text-teal-300 mb-5">5.4 Resource Management</h2>
+                     <div class="flex justify-between items-start">
+                         <h2 data-key="title_5_4" class="text-2xl font-semibold text-teal-300 mb-5">5.4 Resource Management</h2>
+                         <button class="admin-edit-toggle admin-button" data-menu-target="admin-actions-5-4" title="Admin Actions"><i class="fas fa-cog"></i></button>
+                     </div>
                     <div class="pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_5_4" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe id="video-iframe-5-4" src="https://www.youtube.com/embed/placeholder_video_id_1_40" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> </div>
                     <div class="summary-wrapper"> <div id="toolbar-topic-5-4-summary" class="editor-toolbar"> ... </div> <div id="topic-5-4-summary" class="summary-content gradient-default prose prose-invert max-w-none text-gray-300"></div> </div>
-                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 action-buttons-container"> <a href="#" target="_blank" data-key="pdf_link_text_5_4" id="pdf-link-5-4" class="action-button inline-flex items-center">...</a> <button data-summary-id="topic-5-4-summary" data-key="edit_btn_5_4" class="action-button edit-save-btn admin-button inline-flex items-center">...</button> <button data-target-iframe="video-iframe-5-4" data-key="edit_video_btn_5_4" class="action-button edit-video-btn admin-button inline-flex items-center">...</button> <button data-target-pdf="pdf-link-5-4" data-key="edit_pdf_btn_5_4" class="action-button edit-pdf-btn admin-button inline-flex items-center">...</button> </div>
+                    <div class="action-buttons-container"> <a href="#" target="_blank" data-key="pdf_link_text_5_4" id="pdf-link-5-4" class="action-button inline-flex items-center">...</a>
+                        <div id="admin-actions-5-4" class="admin-actions-menu">
+                            <button data-summary-id="topic-5-4-summary" data-key="edit_btn_5_4" class="action-button edit-save-btn admin-button inline-flex items-center">...</button>
+                            <button data-target-iframe="video-iframe-5-4" data-key="edit_video_btn_5_4" class="action-button edit-video-btn admin-button inline-flex items-center">...</button>
+                            <button data-target-pdf="pdf-link-5-4" data-key="edit_pdf_btn_5_4" class="action-button edit-pdf-btn admin-button inline-flex items-center">...</button>
+                        </div>
+                    </div>
                  </div>
 
                 <div id="placeholder-content" class="text-center text-gray-500 pt-10">
@@ -344,18 +397,6 @@
         </footer>
 
     </div>
-
-    <div id="auth-modal-backdrop">
-        <div id="auth-modal">
-            <h3>Admin Login</h3>
-            <div id="auth-error" class="text-red-500 text-sm mb-4 hidden"></div>
-            <button id="google-signin-btn">
-                 <i class="fab fa-google"></i> Sign in with Google
-            </button>
-             <button id="auth-cancel-btn">Cancel</button>
-        </div>
-    </div>
-
 
     <footer id="bottom-dashboard">
         <div class="dashboard-section"> <button id="translate-btn" data-lang="si" class="dashboard-button" aria-label="Translate">
@@ -383,8 +424,6 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-
     <script>
         // --- Firebase Configuration ---
         const firebaseConfig = {
@@ -399,20 +438,21 @@
 
         // --- Initialize Firebase ---
         let database;
-        let auth; // Firebase Auth instance
+        // Removed auth variable
         try {
             if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
             else { firebase.app(); }
             database = firebase.database();
-            auth = firebase.auth(); // Initialize Auth
+            // Removed auth initialization
             console.log("Firebase initialized successfully.");
         } catch (e) {
             console.error("Error initializing Firebase:", e);
             alert("Could not connect to the database. Editing features may not work.");
         }
 
-        // --- Designated Admin Email ---
-        const ADMIN_EMAIL = "lxn000000@gmail.com"; // <<< Your Admin Email Here
+        // --- Admin Credentials (INSECURE - For Demo Only) ---
+        const ADMIN_EMAIL = "lxn000000@gmail.com";
+        const ADMIN_PASSWORD = "e76DAaF1"; // WARNING: Password visible in source code!
 
         // --- Translation Data for Unit 5 ---
         const translations = {
@@ -464,16 +504,7 @@
         const homeButton = document.getElementById('home-btn');
         const translatableElements = document.querySelectorAll('[data-key]');
         const bodyElement = document.body;
-        // Auth UI Elements
-        const authStatusDiv = document.getElementById('auth-status');
-        const userEmailSpan = document.getElementById('user-email');
-        const loginModalButton = document.getElementById('login-modal-btn');
-        const logoutButton = document.getElementById('logout-btn');
-        const authModalBackdrop = document.getElementById('auth-modal-backdrop');
-        const authModal = document.getElementById('auth-modal');
-        const googleSignInButton = document.getElementById('google-signin-btn'); // Google Button
-        const authCancelButton = document.getElementById('auth-cancel-btn');
-        const authErrorDiv = document.getElementById('auth-error');
+        // Removed Auth UI Element references
 
         // --- State ---
         let isMuted = false; // Mute state for click sound
@@ -578,7 +609,7 @@
                 .catch((error) => {
                     if (error.code !== 'PERMISSION_DENIED') {
                          console.error(`Error loading link for ${dbPath}: `, error);
-                         alert(`Error loading ${linkType} link. See console.`);
+                         // alert(`Error loading ${linkType} link. See console.`); // Less intrusive
                     } else {
                          console.warn(`Permission denied loading link for ${dbPath}. Using default.`);
                     }
@@ -643,7 +674,7 @@
             const newUrl = prompt(promptMessage, currentUrl || "");
             const currentLang = document.body.classList.contains('lang-si') ? 'si' : 'en';
 
-            if (newUrl === null) return;
+            if (newUrl === null) return; // User cancelled
 
             if (newUrl.trim() !== "") {
                 if (linkType === 'video' && !newUrl.includes('youtube.com/embed/')) {
@@ -664,6 +695,7 @@
 
                     const dbPath = `links/${currentLang}/${targetElementId}`;
                     const linkRef = database.ref(dbPath);
+                    // ** NOTE: This write will fail if Firebase rules require auth **
                     linkRef.set(newUrl)
                         .then(() => {
                             console.log(`${linkType} link saved successfully to Firebase at ${dbPath}`);
@@ -671,7 +703,7 @@
                         })
                         .catch((error) => {
                             console.error(`Error saving ${linkType} link to Firebase at ${dbPath}: `, error);
-                            alert(`Error saving ${linkType === 'video' ? 'Video' : 'PDF'} link. Check console.`);
+                            alert(`Error saving ${linkType === 'video' ? 'Video' : 'PDF'} link. Check console and Firebase Rules.`);
                             if (linkType === 'video') targetElement.src = currentUrl;
                             else if (linkType === 'pdf') targetElement.href = currentUrl;
                         });
@@ -681,6 +713,23 @@
                 }
             } else {
                 alert("URL cannot be empty.");
+            }
+        }
+
+        // --- Function to check admin credentials (INSECURE) ---
+        function checkAdminCredentials() {
+            const enteredEmail = prompt("Enter Admin Email:");
+            if (enteredEmail === null) return false; // User cancelled
+
+            const enteredPassword = prompt("Enter Admin Password:");
+            if (enteredPassword === null) return false; // User cancelled
+
+            if (enteredEmail === ADMIN_EMAIL && enteredPassword === ADMIN_PASSWORD) {
+                console.log("Admin credentials verified (client-side).");
+                return true;
+            } else {
+                alert("Incorrect admin credentials.");
+                return false;
             }
         }
 
@@ -695,6 +744,9 @@
             const currentlyVisible = contentDisplayArea.querySelector('.content-section.visible');
 
             if (currentlyVisible === targetContent) return;
+
+             // Close any open admin menus before switching
+            document.querySelectorAll('.admin-actions-menu.active').forEach(menu => menu.classList.remove('active'));
 
             topicListItems.forEach(item => {
                 item.classList.toggle('active', item === button);
@@ -758,20 +810,19 @@
         });
 
 
-        // --- Edit/Save/Link Button Logic (Now requires Auth) ---
+        // --- Edit/Save/Link Button Logic (Client-side Password Check) ---
         function handleAdminAction(button) {
-            if (!auth || !auth.currentUser) {
-                alert("Please log in as admin to perform this action.");
-                showAuthModal();
-                return;
-            }
-             // Check if the logged-in user is the designated admin
-            if (auth.currentUser.email !== ADMIN_EMAIL) {
-                alert("You are not authorized to perform this action.");
+            // This function is called when an admin button inside the menu is clicked.
+            // It now needs to trigger the password check first.
+            const actionMenu = button.closest('.admin-actions-menu');
+
+            // Check credentials before proceeding
+            if (!checkAdminCredentials()) {
+                 if (actionMenu) actionMenu.classList.remove('active'); // Close menu on fail
                 return;
             }
 
-            // If logged in AND authorized, proceed
+            // If credentials are correct, proceed with the action
             if (button.classList.contains('edit-save-btn')) {
                 const summaryId = button.dataset.summaryId;
                 const summaryDiv = document.getElementById(summaryId);
@@ -798,7 +849,7 @@
                         })
                         .catch((error) => {
                             console.error(`Error saving summary to Firebase at ${dbPath}: `, error);
-                            alert("Error saving summary. Ensure you are logged in and have write permissions.");
+                            alert("Error saving summary. Check console and Firebase rules.");
                             button.disabled = false;
                             const saveKey = button.getAttribute('data-key');
                             setLanguage(currentLang, false);
@@ -816,6 +867,11 @@
             } else if (button.classList.contains('edit-pdf-btn')) {
                 const linkId = button.dataset.targetPdf;
                 if (linkId) promptForLink(linkId, 'pdf');
+            }
+
+            // Hide the menu after action
+            if (actionMenu) {
+                actionMenu.classList.remove('active');
             }
         }
 
@@ -1039,103 +1095,9 @@
 
         window.addEventListener('resize', setupMatrix);
 
-        // --- Authentication Logic ---
-        function showAuthModal() { authModalBackdrop.classList.add('visible'); }
-        function hideAuthModal() { authModalBackdrop.classList.remove('visible'); authErrorDiv.style.display = 'none'; }
+        // --- Authentication Logic (Removed) ---
 
-        loginModalButton.addEventListener('click', showAuthModal);
-        authCancelButton.addEventListener('click', hideAuthModal);
-        authModalBackdrop.addEventListener('click', (e) => { if (e.target === authModalBackdrop) hideAuthModal(); });
-
-        // Google Sign In
-        googleSignInButton.addEventListener('click', () => {
-            authErrorDiv.style.display = 'none'; // Hide previous errors
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider)
-                .then((result) => {
-                    // This gives you a Google Access Token. You can use it to access the Google API.
-                    // const credential = result.credential;
-                    // const token = credential.accessToken;
-                    // The signed-in user info.
-                    const user = result.user;
-                    console.log("Google Sign-in successful:", user.email);
-                    hideAuthModal();
-                    // Auth state change will handle UI updates
-                }).catch((error) => {
-                    // Handle Errors here.
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    // The email of the user's account used.
-                    const email = error.email;
-                    // The firebase.auth.AuthCredential type that was used.
-                    const credential = error.credential;
-                    console.error("Google Sign-in Error:", errorCode, errorMessage, email, credential);
-                    authErrorDiv.textContent = errorMessage;
-                    authErrorDiv.style.display = 'block';
-                });
-        });
-
-        // Logout
-        logoutButton.addEventListener('click', () => {
-            auth.signOut().then(() => {
-                console.log("Logout successful");
-                 // Auth state change will handle UI updates
-            }).catch((error) => {
-                console.error("Logout Error:", error);
-                alert("Error logging out.");
-            });
-        });
-
-        // Auth State Change Listener
-        auth.onAuthStateChanged((user) => {
-            if (user && user.email === ADMIN_EMAIL) { // Check if user exists AND email matches admin
-                // User is the designated Admin
-                console.log("Admin logged in:", user.email);
-                bodyElement.classList.add('admin-logged-in'); // Add class to show admin buttons
-                loginModalButton.classList.add('hidden');
-                logoutButton.classList.remove('hidden');
-                userEmailSpan.textContent = user.email;
-                userEmailSpan.classList.remove('hidden');
-
-            } else {
-                // User is signed out OR is not the designated admin
-                if (user) {
-                    console.log("Logged in user is not admin:", user.email);
-                    // Optionally log out non-admin users immediately
-                    // auth.signOut();
-                } else {
-                    console.log("User logged out");
-                }
-                bodyElement.classList.remove('admin-logged-in'); // Remove class to hide admin buttons
-                loginModalButton.classList.remove('hidden');
-                logoutButton.classList.add('hidden');
-                userEmailSpan.textContent = '';
-                userEmailSpan.classList.add('hidden');
-
-                // If user logs out (or is not admin) while editing, revert the edit state
-                const currentlyVisible = contentDisplayArea.querySelector('.content-section.visible');
-                if (currentlyVisible) {
-                     const currentSummaryId = currentlyVisible.id + '-summary';
-                     const currentSummaryDiv = document.getElementById(currentSummaryId);
-                     const currentToolbar = document.getElementById(`toolbar-${currentSummaryId}`);
-                     const editButton = currentlyVisible.querySelector('.edit-save-btn');
-                     if (currentSummaryDiv && currentToolbar && currentSummaryDiv.getAttribute('contentEditable') === 'true') {
-                         makeNonEditable(currentSummaryDiv, currentToolbar);
-                         if (editButton && editButton.getAttribute('data-key').startsWith('save_btn')) {
-                             const editKey = editButton.getAttribute('data-key').replace('save', 'edit');
-                             editButton.setAttribute('data-key', editKey);
-                             editButton.disabled = false;
-                             // Reload summary to discard unsaved changes
-                             const currentLang = document.body.classList.contains('lang-si') ? 'si' : 'en';
-                             loadSummary(currentSummaryId, currentLang);
-                         }
-                     }
-                }
-            }
-        });
-
-
-        // --- Enhanced Event Delegation for Editor Toolbar & Button Sounds ---
+        // --- Enhanced Event Delegation for Admin Actions and Sounds ---
         document.body.addEventListener('click', function(event) {
             const target = event.target;
             const targetButton = target.closest('button'); // Find closest button
@@ -1143,10 +1105,11 @@
             // Play sound for relevant button clicks (excluding mute itself)
             if (targetButton && targetButton.id !== 'mute-btn' && (
                 targetButton.classList.contains('topic-list-item') ||
-                targetButton.classList.contains('action-button') ||
+                targetButton.classList.contains('action-button') || // Includes admin buttons inside menu now
                 targetButton.classList.contains('dashboard-button') ||
-                targetButton.classList.contains('modal-button') || // Added modal buttons
-                targetButton.closest('.editor-toolbar')
+                // targetButton.classList.contains('modal-button') || // Removed password modal
+                targetButton.closest('.editor-toolbar') ||
+                targetButton.classList.contains('admin-edit-toggle') // Sound for admin toggle
             )) {
                 playButtonClickSound();
             }
@@ -1158,10 +1121,32 @@
                      formatDoc(command);
                  }
             }
-            // --- Admin Action Button Click ---
-             else if (targetButton && targetButton.classList.contains('admin-button')) {
-                 handleAdminAction(targetButton); // Call the new handler
+            // --- Admin Edit Toggle Button Click ---
+            else if (targetButton && targetButton.classList.contains('admin-edit-toggle')) {
+                const menuId = targetButton.dataset.menuTarget;
+                const targetMenu = document.getElementById(menuId);
+
+                // Close all other menus first
+                document.querySelectorAll('.admin-actions-menu.active').forEach(menu => {
+                    if (menu.id !== menuId) {
+                        menu.classList.remove('active');
+                    }
+                });
+                // Toggle the target menu
+                if (targetMenu) {
+                    targetMenu.classList.toggle('active');
+                }
+            }
+            // --- Specific Admin Action Button Click (inside menu) ---
+             else if (targetButton && targetButton.classList.contains('admin-button') && !targetButton.classList.contains('admin-edit-toggle')) {
+                 // Trigger password check before action
+                 handleAdminAction(targetButton);
              }
+             // --- Close admin menu if clicking outside ---
+             else if (!target.closest('.admin-actions-menu') && !target.closest('.admin-edit-toggle')) {
+                 document.querySelectorAll('.admin-actions-menu.active').forEach(menu => menu.classList.remove('active'));
+             }
+
         }, true); // Use capture phase
 
         // Handle color input change separately using event delegation
@@ -1172,9 +1157,18 @@
             }
         });
 
+        // --- Function to check for admin mode on page load ---
+        function checkAdminMode() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('mode') === 'admin') {
+                document.body.classList.add('admin-mode');
+                console.log("Admin mode activated (via URL parameter).");
+            }
+        }
+
 
         // --- Initial Setup ---
-        // Removed checkAdminMode()
+        checkAdminMode(); // Check for admin mode first
         const updatedContentSections = contentDisplayArea.querySelectorAll('.content-section');
         updatedContentSections.forEach(section => section.classList.remove('visible'));
         if (placeholderContent) placeholderContent.style.display = 'block';
