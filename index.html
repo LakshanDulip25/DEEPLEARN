@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="language" content="en">
-    <title>Unit 1: Concept of ICT - Enhanced Dark Theme</title>
+    <title>Unit 5: Computer Operating System - Enhanced Dark Theme</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         /* Import Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Iskoola+Pota&display=swap');
@@ -53,11 +55,18 @@
 
         /* Content section visibility transition */
         .content-section {
-            display: none; opacity: 0;
+            display: none; /* Hidden by default */
+            opacity: 0;
             transform: translateY(15px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            /* Define transition */
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out; /* Keep transition */
         }
-        .content-section.visible { display: block; opacity: 1; transform: translateY(0); }
+        .content-section.visible {
+            display: block; /* Make visible */
+            opacity: 1;
+            transform: translateY(0);
+        }
+
 
         /* Topic List Item Styling */
         .topic-list-item {
@@ -100,7 +109,7 @@
             border: 1px solid rgba(71, 85, 105, 0.4);
             border-radius: 9999px;
             padding: 0.4rem 0.6rem;
-            display: flex; justify-content: center; align-items: center;
+            display: flex; justify-content: center; align-items: center; /* Center items */
             gap: 0.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             opacity: 0; transform: translateX(-50%) translateY(120%);
             transition: opacity 0.4s ease-out, transform 0.4s ease-out;
@@ -134,165 +143,114 @@
          .dashboard-button:active { transform: scale(0.95); background-color: rgba(99, 102, 241, 0.2); }
          #home-btn {
              background: linear-gradient(145deg, #4f46e5, #6366f1); color: white;
-             box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); opacity: 1; margin: 0 0.25rem;
+             box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); opacity: 1;
+             margin-left: 0.5rem;
+             margin-right: 0.5rem;
          }
          #home-btn:hover { background: linear-gradient(145deg, #6366f1, #4f46e5); box-shadow: 0 6px 15px rgba(79, 70, 229, 0.4); transform: scale(1.05); }
          #translate-btn { font-weight: 600; font-size: 0.75rem; color: #94a3b8; width: 2.25rem; height: 2.25rem; }
           @media (min-width: 768px) { #translate-btn { font-size: 0.85rem; width: 2.5rem; height: 2.5rem; } }
          #translate-btn:hover { color: #e5e7eb; }
-
-
-        /* Password Modal Styling */
-        #password-modal-backdrop {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            display: none; opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-        #password-modal-backdrop.visible { display: block; opacity: 1; }
-
-        #password-modal {
-            position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0.95);
-            z-index: 1001; background-color: #1f2937;
-            border-radius: 0.75rem; padding: 1.5rem 2rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-            width: 90%; max-width: 380px;
-            border: 1px solid #4b5563; opacity: 0;
-            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-        }
-         #password-modal-backdrop.visible #password-modal { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-
-        #password-modal-instruction {
-            color: #d1d5db; margin-bottom: 1rem;
-            font-size: 0.95rem; text-align: center;
-        }
-         #password-modal-instruction .random-number { /* Style for the random number */
-             font-weight: 700; color: #6ee7b7;
-             font-size: 1.1em; padding: 0 0.25rem;
+         /* Mute button icon size */
+         #mute-btn i { font-size: 0.9rem; }
+          @media (min-width: 768px) { #mute-btn i { font-size: 1rem; } }
+          /* Login/Logout button styling */
+         #login-modal-btn, #logout-btn {
+             font-size: 0.75rem; /* Smaller text */
+             width: auto !important; /* Allow button to size to content */
+             height: auto !important;
+             padding: 0.3rem 0.8rem; /* Adjust padding */
+             border-radius: 0.375rem; /* Rounded corners */
          }
-         #password-modal-instruction .day-number { /* Style for the day */
-             font-weight: 700; color: #a5b4fc; /* indigo-300 */
-             font-size: 1.1em; padding: 0 0.25rem;
-         }
-        #password-input {
-            width: 100%; padding: 0.6rem 0.8rem;
-            border-radius: 0.375rem; border: 1px solid #4b5563;
-            background-color: #374151; color: #e5e7eb;
-            margin-bottom: 1rem; box-sizing: border-box; outline: none;
-            text-align: center; font-size: 1.1rem;
-        }
-        #password-input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); }
-        #password-error {
-            color: #f87171; font-size: 0.875rem;
-            margin-top: -0.5rem; margin-bottom: 1rem;
-            min-height: 1.25rem; display: none;
-            text-align: center;
-        }
-        .password-modal-buttons { display: flex; justify-content: flex-end; gap: 0.75rem; }
-        .modal-button {
-            padding: 0.5rem 1rem; border-radius: 0.375rem;
-            font-weight: 500; cursor: pointer;
-            transition: background-color 0.2s ease, color 0.2s ease; border: none;
-        }
-        #password-submit-btn { background-color: #4f46e5; color: white; }
-        #password-submit-btn:hover { background-color: #6366f1; }
-        #password-cancel-btn { background-color: #4b5563; color: #e5e7eb; }
-         #password-cancel-btn:hover { background-color: #6b7280; }
 
+
+        /* Auth Modal Styling - Simplified for Google Sign In */
+        #auth-modal-backdrop { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); z-index: 1000; display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        #auth-modal-backdrop.visible { display: flex; align-items: center; justify-content: center; opacity: 1; }
+        #auth-modal { background-color: #1f2937; border-radius: 0.75rem; padding: 2rem 2.5rem; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); width: 90%; max-width: 360px; border: 1px solid #4b5563; opacity: 0; transform: scale(0.95); transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; text-align: center; }
+        #auth-modal-backdrop.visible #auth-modal { opacity: 1; transform: scale(1); }
+        #auth-modal h3 { color: #e5e7eb; margin-bottom: 1.5rem; font-size: 1.25rem; font-weight: 600;}
+        #auth-error { color: #f87171; font-size: 0.875rem; margin-top: 1rem; min-height: 1.25rem; display: none; }
+        #google-signin-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 0.6rem 1.5rem; border-radius: 0.375rem; font-weight: 500;
+            cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease;
+            border: none; background-color: #4285F4; color: white; margin-bottom: 1rem;
+        }
+        #google-signin-btn:hover { background-color: #357ae8; }
+        #google-signin-btn i { margin-right: 0.75rem; font-size: 1.1rem;}
+        #auth-cancel-btn { background-color: #4b5563; color: #e5e7eb; width: 100%; padding: 0.6rem 1rem; border-radius: 0.375rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s ease; border: none; }
+        #auth-cancel-btn:hover { background-color: #6b7280; }
+
+
+        /* Summary Area Wrapper */
+        .summary-wrapper { position: relative; margin-top: 1.5rem; }
 
         /* Icon size */
         .icon { width: 1.1rem; height: 1.1rem; display: inline-block; vertical-align: -0.15em; margin-right: 0.4rem; }
 
         /* Video Wrapper */
-        .video-wrapper {
-            position: relative; padding-bottom: 56.25%; height: 0;
-            overflow: hidden; max-width: 100%; background: #111827;
-            border-radius: 0.75rem; margin-top: 1rem;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-        }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #111827; border-radius: 0.75rem; margin-top: 1rem; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; border-radius: 0.75rem; }
 
-        /* Action Buttons */
-        .action-button {
-            flex-grow: 1; text-align: center; justify-content: center;
-            transition: all 0.25s ease-out;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-            padding: 0.65rem 1rem; color: white;
-            border-radius: 0.5rem; font-weight: 500; font-size: 0.9rem;
-            border: 1px solid transparent;
+        /* Action Buttons - Updated Styles */
+        .action-button { flex-grow: 1; text-align: center; justify-content: center; transition: all 0.25s ease-out; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2); padding: 0.6rem 1rem; color: #e5e7eb; border-radius: 0.5rem; font-weight: 500; font-size: 0.85rem; border: 1px solid rgba(96, 109, 128, 0.4); background: rgba(51, 65, 85, 0.5); }
+        .action-button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); border-color: rgba(129, 140, 248, 0.5); background: rgba(71, 85, 105, 0.7); }
+        .action-button:disabled { opacity: 0.5; cursor: not-allowed; background: rgba(51, 65, 85, 0.3); }
+        /* Specific button overrides */
+        a.action-button { background: linear-gradient(145deg, #14b8a6, #0d9488); border: none; color: white; } /* Teal for PDF */
+        a.action-button:hover { background: linear-gradient(145deg, #0d9488, #047857); }
+        button.edit-save-btn { background: linear-gradient(145deg, #6366f1, #4f46e5); border: none; color: white; } /* Indigo for Edit */
+        button.edit-save-btn:hover { background: linear-gradient(145deg, #4f46e5, #4338ca); }
+        button.edit-save-btn[data-key*="save_btn"] { background: linear-gradient(145deg, #22c55e, #10b981); } /* Green for Save */
+        button.edit-save-btn[data-key*="save_btn"]:hover { background: linear-gradient(145deg, #10b981, #059669); }
+        button.edit-video-btn { background: linear-gradient(145deg, #f97316, #ea580c); border: none; color: white; } /* Orange for Video */
+        button.edit-video-btn:hover { background: linear-gradient(145deg, #ea580c, #c2410c); }
+        button.edit-pdf-btn { background: linear-gradient(145deg, #0ea5e9, #0284c7); border: none; color: white; } /* Sky for PDF Link */
+        button.edit-pdf-btn:hover { background: linear-gradient(145deg, #0284c7, #0369a1); }
+
+
+        /* Action Buttons Container - Added Margin */
+        .action-buttons-container { margin-top: 1.5rem; /* Add space above the buttons */ }
+
+        /* Admin Button Styling - Hide by default */
+        .admin-button {
+            display: none;
         }
-        .action-button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25); }
-        .action-button:disabled { opacity: 0.5; cursor: not-allowed; }
-        a.action-button { background: linear-gradient(145deg, #f43f5e, #ec4899); }
-        a.action-button:hover { background: linear-gradient(145deg, #ec4899, #e11d48); }
-        button[data-key^="edit_btn"] { background: linear-gradient(145deg, #3b82f6, #6366f1); }
-        button[data-key^="edit_btn"]:hover { background: linear-gradient(145deg, #6366f1, #4f46e5); }
-        button[data-key^="save_btn"] { background: linear-gradient(145deg, #22c55e, #10b981); }
-        button[data-key^="save_btn"]:hover { background: linear-gradient(145deg, #10b981, #059669); }
+        /* Show admin buttons when body has .admin-logged-in class */
+        body.admin-logged-in .admin-button {
+            display: inline-flex;
+        }
+
 
         #content-display-area { min-height: 300px; background: rgba(17, 24, 39, 0.6); border-radius: 1rem; }
 
         /* Styles for contentEditable and Toolbar */
-        .summary-content {
-             padding: 1rem; border: 1px solid transparent;
-             border-radius: 0.5rem; min-height: 120px;
-             background: rgba(55, 65, 81, 0.3);
-             transition: border 0.3s ease, background-color 0.3s ease;
-             line-height: 1.7;
+        .summary-content { padding: 1rem; border: 1px solid transparent; border-radius: 0.5rem; min-height: 120px; background: rgba(55, 65, 81, 0.3); transition: border 0.3s ease, background-color 0.3s ease; line-height: 1.7; position: relative; }
+        .summary-content[contenteditable="true"] { border: 1px solid #4b5563; min-height: 150px; background-color: #374151; color: #e5e7eb; outline: none; border-radius: 0 0 0.5rem 0.5rem; }
+        .summary-content[contenteditable="true"]:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); }
+        .editor-toolbar { display: none; background-color: #1f2937; padding: 0.6rem; border-radius: 0.5rem 0.5rem 0 0; border: 1px solid #4b5563; border-bottom: none; margin-bottom: 0px; flex-wrap: wrap; gap: 0.4rem; }
+        /* Show toolbar only when logged in AND editing */
+        body.admin-logged-in .summary-content[contenteditable="true"] ~ .action-buttons-container .editor-toolbar, /* Adjust selector if needed */
+        body.admin-logged-in .summary-wrapper .editor-toolbar.visible {
+             display: flex;
         }
-        .summary-content[contenteditable="true"] {
-            border: 1px solid #4b5563; min-height: 150px;
-            background-color: #374151; color: #e5e7eb; outline: none;
-            border-radius: 0 0 0.5rem 0.5rem;
-        }
-        .summary-content[contenteditable="true"]:focus {
-             border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
-        }
-        .editor-toolbar {
-            display: none; background-color: #1f2937;
-            padding: 0.6rem; border-radius: 0.5rem 0.5rem 0 0;
-            border: 1px solid #4b5563; border-bottom: none;
-            margin-bottom: 0px; flex-wrap: wrap; gap: 0.4rem;
-        }
-        .editor-toolbar.visible { display: flex; }
-        .editor-toolbar button, .editor-toolbar input[type="color"] {
-            background-color: #4b5563; color: #e5e7eb; border: none;
-            padding: 0.35rem 0.65rem; border-radius: 0.375rem; cursor: pointer;
-            font-size: 0.85rem; transition: background-color 0.2s ease, transform 0.1s ease;
-        }
+        .editor-toolbar button, .editor-toolbar input[type="color"] { background-color: #4b5563; color: #e5e7eb; border: none; padding: 0.35rem 0.65rem; border-radius: 0.375rem; cursor: pointer; font-size: 0.85rem; transition: background-color 0.2s ease, transform 0.1s ease; }
          .editor-toolbar button:hover { background-color: #525c6e; }
          .editor-toolbar button:active { transform: scale(0.95); }
-         .editor-toolbar input[type="color"] {
-             padding: 0.1rem 0.2rem; height: 1.8rem; width: 2.5rem;
-             border: 1px solid #6b7280; border-radius: 0.375rem;
-         }
-         .editor-toolbar button svg {
-             width: 1em; height: 1em; vertical-align: -0.125em; display: inline-block;
-         }
+         .editor-toolbar input[type="color"] { padding: 0.1rem 0.2rem; height: 1.8rem; width: 2.5rem; border: 1px solid #6b7280; border-radius: 0.375rem; }
+         .editor-toolbar button svg { width: 1em; height: 1em; vertical-align: -0.125em; display: inline-block; }
          .summary-content ul, .summary-content ol { list-style-position: inside; padding-left: 1rem; margin: 0.75rem 0; }
          .summary-content li { margin-bottom: 0.4rem; line-height: 1.6; }
          .summary-content p { margin-bottom: 0.75rem; }
 
          /* Footer Styles */
-         .app-footer {
-             padding: 1.5rem 1rem;
-             text-align: center;
-             font-size: 0.8rem;
-             color: #6b7280;
-             width: 100%;
-         }
-         .app-footer a {
-             color: #9ca3af;
-             text-decoration: none;
-             transition: color 0.2s ease;
-         }
-         .app-footer a:hover {
-             color: #a5b4fc;
-             text-decoration: underline;
-         }
+         .app-footer { padding: 1.5rem 1rem; text-align: center; font-size: 0.8rem; color: #6b7280; width: 100%; }
+         .app-footer a { color: #9ca3af; text-decoration: none; transition: color 0.2s ease; }
+         .app-footer a:hover { color: #a5b4fc; text-decoration: underline; }
+
+         /* Helper class to hide elements */
+         .hidden { display: none; }
 
     </style>
 </head>
@@ -302,48 +260,75 @@
 
     <div class="container mx-auto max-w-6xl main-container rounded-2xl p-6 md:p-10 relative">
 
-        <header class="mb-8 text-center border-b border-gray-700/50 pb-6">
-            <h1 id="main-title" data-key="main_title" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-indigo-400 mb-2">Unit 1: Concept of ICT</h1>
-            <p id="main-subtitle" data-key="main_subtitle" class="text-gray-400 mt-2 text-base md:text-lg">Exploring the basic concepts, role, and applicability of ICT.</p>
+        <div id="auth-status" class="absolute top-4 right-4 text-sm text-gray-400 flex items-center gap-3">
+            <span id="user-email" class="hidden"></span>
+            <button id="login-modal-btn" class="dashboard-button text-xs !w-auto !h-auto px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white">Login</button>
+            <button id="logout-btn" class="dashboard-button text-xs !w-auto !h-auto px-3 py-1 bg-red-600 hover:bg-red-700 text-white hidden">Logout</button>
+        </div>
+
+
+        <header class="mb-8 text-center border-b border-gray-700/50 pb-6 pt-12"> <h1 id="main-title" data-key="main_title" class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-indigo-400 mb-2">Unit 5: Computer Operating System</h1>
+            <p id="main-subtitle" data-key="main_subtitle" class="text-gray-400 mt-2 text-base md:text-lg">Using operating systems to manage the functionality of computers.</p>
         </header>
 
         <div class="flex flex-col md:flex-row md:gap-6 lg:gap-8">
 
             <aside id="topic-list-container" class="w-full md:w-1/3 lg:w-1/4 flex-shrink-0 mb-8 md:mb-0 pr-4 md:pr-0">
-                 <h2 class="text-xl font-semibold text-indigo-300 mb-4 hidden md:block">Topics (Unit 1)</h2>
+                 <h2 class="text-xl font-semibold text-indigo-300 mb-4 hidden md:block">Topics (Unit 5)</h2>
                 <nav id="topic-list" class="space-y-1">
-                    <button data-target="topic-1-1" data-key="btn_1_1" class="topic-list-item w-full text-left">
-                        1.1 Information Basics
+                    <button data-target="topic-5-1" data-key="btn_5_1" class="topic-list-item w-full text-left">
+                        5.1 Intro & Evolution
                     </button>
-                    <button data-target="topic-1-2" data-key="btn_1_2" class="topic-list-item w-full text-left">
-                        1.2 Need for Technology
+                    <button data-target="topic-5-2" data-key="btn_5_2" class="topic-list-item w-full text-left">
+                        5.2 File Management
                     </button>
-                    <button data-target="topic-1-3" data-key="btn_1_3" class="topic-list-item w-full text-left">
-                        1.3 Abstract Model
+                    <button data-target="topic-5-3" data-key="btn_5_3" class="topic-list-item w-full text-left">
+                        5.3 Process Management
                     </button>
-                    <button data-target="topic-1-4" data-key="btn_1_4" class="topic-list-item w-full text-left">
-                        1.4 Computer Components
-                    </button>
-                    <button data-target="topic-1-5" data-key="btn_1_5" class="topic-list-item w-full text-left">
-                        1.5 Data Processing
-                    </button>
-                    <button data-target="topic-1-6" data-key="btn_1_6" class="topic-list-item w-full text-left">
-                        1.6 ICT Applications
-                    </button>
-                    <button data-target="topic-1-7" data-key="btn_1_7" class="topic-list-item w-full text-left">
-                        1.7 Societal Impact
+                    <button data-target="topic-5-4" data-key="btn_5_4" class="topic-list-item w-full text-left">
+                        5.4 Resource Management
                     </button>
                 </nav>
             </aside>
 
-            <main id="content-display-area" class="w-full md:flex-grow p-6 rounded-xl border border-gray-700/30 shadow-lg">
-                <div id="topic-1-1" class="content-section"> <h2 data-key="title_1_1" class="text-2xl font-semibold text-teal-300 mb-5">1.1 Information Basics</h2> <div id="toolbar-topic-1-1-summary" class="editor-toolbar"> <button onclick="formatDoc('bold');" title="Bold"><b>B</b></button> <button onclick="formatDoc('italic');" title="Italic"><i>I</i></button> <button onclick="formatDoc('underline');" title="Underline"><u>U</u></button> <button onclick="formatDoc('justifyLeft');" title="Align Left">L</button> <button onclick="formatDoc('justifyCenter');" title="Align Center">C</button> <button onclick="formatDoc('justifyRight');" title="Align Right">R</button> <button onclick="formatDoc('insertUnorderedList');" title="Bullet List">• List</button> <button onclick="formatDoc('insertOrderedList');" title="Numbered List">1. List</button> <button onclick="formatDoc('createLink');" title="Link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757a4.5 4.5 0 016.364 0l1.757 1.757a.75.75 0 11-1.06 1.06l-1.757-1.757a3 3 0 00-4.243 0l-1.757 1.757a3 3 0 104.243 4.243l4.5-4.5a3 3 0 00-1.242-5.244zM12.75 8.688a.75.75 0 00-1.06 1.06l1.757 1.757a3 3 0 010 4.243l-1.757 1.757a.75.75 0 101.06 1.06l1.757-1.757a4.5 4.5 0 000-6.364l-1.757-1.757z" /></svg></button> <input type="color" onchange="formatDoc('foreColor', this.value);" title="Text Color"> </div> <div id="topic-1-1-summary" class="summary-content prose prose-invert max-w-none text-gray-300"></div> <div class="mt-8 pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_1_1" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe src="https://www.youtube.com/embed/VIDEO_ID_1_1" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> <div class="flex flex-col sm:flex-row gap-3 sm:gap-4"> <a href="#" target="_blank" data-key="pdf_link_text_1_1" class="action-button inline-flex items-center bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg> Download PDF </a> <button onclick="toggleEdit('topic-1-1-summary', this)" data-key="edit_btn_1_1" class="action-button inline-flex items-center bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /> <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /> </svg> Edit Summary </button> </div> </div> </div>
-                <div id="topic-1-2" class="content-section"> <h2 data-key="title_1_2" class="text-2xl font-semibold text-teal-300 mb-5">1.2 Need for Technology</h2> <div id="toolbar-topic-1-2-summary" class="editor-toolbar"> <button onclick="formatDoc('bold');" title="Bold"><b>B</b></button> <button onclick="formatDoc('italic');" title="Italic"><i>I</i></button> <button onclick="formatDoc('underline');" title="Underline"><u>U</u></button> <button onclick="formatDoc('justifyLeft');" title="Align Left">L</button> <button onclick="formatDoc('justifyCenter');" title="Align Center">C</button> <button onclick="formatDoc('justifyRight');" title="Align Right">R</button> <button onclick="formatDoc('insertUnorderedList');" title="Bullet List">• List</button> <button onclick="formatDoc('insertOrderedList');" title="Numbered List">1. List</button> <button onclick="formatDoc('createLink');" title="Link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757a4.5 4.5 0 016.364 0l1.757 1.757a.75.75 0 11-1.06 1.06l-1.757-1.757a3 3 0 00-4.243 0l-1.757 1.757a3 3 0 104.243 4.243l4.5-4.5a3 3 0 00-1.242-5.244zM12.75 8.688a.75.75 0 00-1.06 1.06l1.757 1.757a3 3 0 010 4.243l-1.757 1.757a.75.75 0 101.06 1.06l1.757-1.757a4.5 4.5 0 000-6.364l-1.757-1.757z" /></svg></button> <input type="color" onchange="formatDoc('foreColor', this.value);" title="Text Color"> </div> <div id="topic-1-2-summary" class="summary-content prose prose-invert max-w-none text-gray-300"></div> <div class="mt-8 pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_1_2" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe src="https://www.youtube.com/embed/VIDEO_ID_1_2" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> <div class="flex flex-col sm:flex-row gap-3 sm:gap-4"> <a href="#" target="_blank" data-key="pdf_link_text_1_2" class="action-button inline-flex items-center bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg> Download PDF </a> <button onclick="toggleEdit('topic-1-2-summary', this)" data-key="edit_btn_1_2" class="action-button inline-flex items-center bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /> <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /> </svg> Edit Summary </button> </div> </div> </div>
-                <div id="topic-1-3" class="content-section"> <h2 data-key="title_1_3" class="text-2xl font-semibold text-teal-300 mb-5">1.3 Abstract Model</h2> <div id="toolbar-topic-1-3-summary" class="editor-toolbar"> <button onclick="formatDoc('bold');" title="Bold"><b>B</b></button> <button onclick="formatDoc('italic');" title="Italic"><i>I</i></button> <button onclick="formatDoc('underline');" title="Underline"><u>U</u></button> <button onclick="formatDoc('justifyLeft');" title="Align Left">L</button> <button onclick="formatDoc('justifyCenter');" title="Align Center">C</button> <button onclick="formatDoc('justifyRight');" title="Align Right">R</button> <button onclick="formatDoc('insertUnorderedList');" title="Bullet List">• List</button> <button onclick="formatDoc('insertOrderedList');" title="Numbered List">1. List</button> <button onclick="formatDoc('createLink');" title="Link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757a4.5 4.5 0 016.364 0l1.757 1.757a.75.75 0 11-1.06 1.06l-1.757-1.757a3 3 0 00-4.243 0l-1.757 1.757a3 3 0 104.243 4.243l4.5-4.5a3 3 0 00-1.242-5.244zM12.75 8.688a.75.75 0 00-1.06 1.06l1.757 1.757a3 3 0 010 4.243l-1.757 1.757a.75.75 0 101.06 1.06l1.757-1.757a4.5 4.5 0 000-6.364l-1.757-1.757z" /></svg></button> <input type="color" onchange="formatDoc('foreColor', this.value);" title="Text Color"> </div> <div id="topic-1-3-summary" class="summary-content prose prose-invert max-w-none text-gray-300"></div> <div class="mt-8 pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_1_3" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe src="https://www.youtube.com/embed/VIDEO_ID_1_3" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> <div class="flex flex-col sm:flex-row gap-3 sm:gap-4"> <a href="#" target="_blank" data-key="pdf_link_text_1_3" class="action-button inline-flex items-center bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg> Download PDF </a> <button onclick="toggleEdit('topic-1-3-summary', this)" data-key="edit_btn_1_3" class="action-button inline-flex items-center bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /> <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /> </svg> Edit Summary </button> </div> </div> </div>
-                <div id="topic-1-4" class="content-section"> <h2 data-key="title_1_4" class="text-2xl font-semibold text-teal-300 mb-5">1.4 Computer Components</h2> <div id="toolbar-topic-1-4-summary" class="editor-toolbar"> <button onclick="formatDoc('bold');" title="Bold"><b>B</b></button> <button onclick="formatDoc('italic');" title="Italic"><i>I</i></button> <button onclick="formatDoc('underline');" title="Underline"><u>U</u></button> <button onclick="formatDoc('justifyLeft');" title="Align Left">L</button> <button onclick="formatDoc('justifyCenter');" title="Align Center">C</button> <button onclick="formatDoc('justifyRight');" title="Align Right">R</button> <button onclick="formatDoc('insertUnorderedList');" title="Bullet List">• List</button> <button onclick="formatDoc('insertOrderedList');" title="Numbered List">1. List</button> <button onclick="formatDoc('createLink');" title="Link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757a4.5 4.5 0 016.364 0l1.757 1.757a.75.75 0 11-1.06 1.06l-1.757-1.757a3 3 0 00-4.243 0l-1.757 1.757a3 3 0 104.243 4.243l4.5-4.5a3 3 0 00-1.242-5.244zM12.75 8.688a.75.75 0 00-1.06 1.06l1.757 1.757a3 3 0 010 4.243l-1.757 1.757a.75.75 0 101.06 1.06l1.757-1.757a4.5 4.5 0 000-6.364l-1.757-1.757z" /></svg></button> <input type="color" onchange="formatDoc('foreColor', this.value);" title="Text Color"> </div> <div id="topic-1-4-summary" class="summary-content prose prose-invert max-w-none text-gray-300"></div> <div class="mt-8 pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_1_4" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe src="https://www.youtube.com/embed/VIDEO_ID_1_4" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> <div class="flex flex-col sm:flex-row gap-3 sm:gap-4"> <a href="#" target="_blank" data-key="pdf_link_text_1_4" class="action-button inline-flex items-center bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg> Download PDF </a> <button onclick="toggleEdit('topic-1-4-summary', this)" data-key="edit_btn_1_4" class="action-button inline-flex items-center bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /> <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /> </svg> Edit Summary </button> </div> </div> </div>
-                <div id="topic-1-5" class="content-section"> <h2 data-key="title_1_5" class="text-2xl font-semibold text-teal-300 mb-5">1.5 Data Processing</h2> <div id="toolbar-topic-1-5-summary" class="editor-toolbar"> <button onclick="formatDoc('bold');" title="Bold"><b>B</b></button> <button onclick="formatDoc('italic');" title="Italic"><i>I</i></button> <button onclick="formatDoc('underline');" title="Underline"><u>U</u></button> <button onclick="formatDoc('justifyLeft');" title="Align Left">L</button> <button onclick="formatDoc('justifyCenter');" title="Align Center">C</button> <button onclick="formatDoc('justifyRight');" title="Align Right">R</button> <button onclick="formatDoc('insertUnorderedList');" title="Bullet List">• List</button> <button onclick="formatDoc('insertOrderedList');" title="Numbered List">1. List</button> <button onclick="formatDoc('createLink');" title="Link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757a4.5 4.5 0 016.364 0l1.757 1.757a.75.75 0 11-1.06 1.06l-1.757-1.757a3 3 0 00-4.243 0l-1.757 1.757a3 3 0 104.243 4.243l4.5-4.5a3 3 0 00-1.242-5.244zM12.75 8.688a.75.75 0 00-1.06 1.06l1.757 1.757a3 3 0 010 4.243l-1.757 1.757a.75.75 0 101.06 1.06l1.757-1.757a4.5 4.5 0 000-6.364l-1.757-1.757z" /></svg></button> <input type="color" onchange="formatDoc('foreColor', this.value);" title="Text Color"> </div> <div id="topic-1-5-summary" class="summary-content prose prose-invert max-w-none text-gray-300"></div> <div class="mt-8 pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_1_5" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe src="https://www.youtube.com/embed/VIDEO_ID_1_5" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> <div class="flex flex-col sm:flex-row gap-3 sm:gap-4"> <a href="#" target="_blank" data-key="pdf_link_text_1_5" class="action-button inline-flex items-center bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg> Download PDF </a> <button onclick="toggleEdit('topic-1-5-summary', this)" data-key="edit_btn_1_5" class="action-button inline-flex items-center bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /> <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /> </svg> Edit Summary </button> </div> </div> </div>
-                <div id="topic-1-6" class="content-section"> <h2 data-key="title_1_6" class="text-2xl font-semibold text-teal-300 mb-5">1.6 ICT Applications</h2> <div id="toolbar-topic-1-6-summary" class="editor-toolbar"> <button onclick="formatDoc('bold');" title="Bold"><b>B</b></button> <button onclick="formatDoc('italic');" title="Italic"><i>I</i></button> <button onclick="formatDoc('underline');" title="Underline"><u>U</u></button> <button onclick="formatDoc('justifyLeft');" title="Align Left">L</button> <button onclick="formatDoc('justifyCenter');" title="Align Center">C</button> <button onclick="formatDoc('justifyRight');" title="Align Right">R</button> <button onclick="formatDoc('insertUnorderedList');" title="Bullet List">• List</button> <button onclick="formatDoc('insertOrderedList');" title="Numbered List">1. List</button> <button onclick="formatDoc('createLink');" title="Link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757a4.5 4.5 0 016.364 0l1.757 1.757a.75.75 0 11-1.06 1.06l-1.757-1.757a3 3 0 00-4.243 0l-1.757 1.757a3 3 0 104.243 4.243l4.5-4.5a3 3 0 00-1.242-5.244zM12.75 8.688a.75.75 0 00-1.06 1.06l1.757 1.757a3 3 0 010 4.243l-1.757 1.757a.75.75 0 101.06 1.06l1.757-1.757a4.5 4.5 0 000-6.364l-1.757-1.757z" /></svg></button> <input type="color" onchange="formatDoc('foreColor', this.value);" title="Text Color"> </div> <div id="topic-1-6-summary" class="summary-content prose prose-invert max-w-none text-gray-300"></div> <div class="mt-8 pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_1_6" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe src="https://www.youtube.com/embed/VIDEO_ID_1_6" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> <div class="flex flex-col sm:flex-row gap-3 sm:gap-4"> <a href="#" target="_blank" data-key="pdf_link_text_1_6" class="action-button inline-flex items-center bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg> Download PDF </a> <button onclick="toggleEdit('topic-1-6-summary', this)" data-key="edit_btn_1_6" class="action-button inline-flex items-center bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /> <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /> </svg> Edit Summary </button> </div> </div> </div>
-                <div id="topic-1-7" class="content-section"> <h2 data-key="title_1_7" class="text-2xl font-semibold text-teal-300 mb-5">1.7 Societal Impact</h2> <div id="toolbar-topic-1-7-summary" class="editor-toolbar"> <button onclick="formatDoc('bold');" title="Bold"><b>B</b></button> <button onclick="formatDoc('italic');" title="Italic"><i>I</i></button> <button onclick="formatDoc('underline');" title="Underline"><u>U</u></button> <button onclick="formatDoc('justifyLeft');" title="Align Left">L</button> <button onclick="formatDoc('justifyCenter');" title="Align Center">C</button> <button onclick="formatDoc('justifyRight');" title="Align Right">R</button> <button onclick="formatDoc('insertUnorderedList');" title="Bullet List">• List</button> <button onclick="formatDoc('insertOrderedList');" title="Numbered List">1. List</button> <button onclick="formatDoc('createLink');" title="Link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757a4.5 4.5 0 016.364 0l1.757 1.757a.75.75 0 11-1.06 1.06l-1.757-1.757a3 3 0 00-4.243 0l-1.757 1.757a3 3 0 104.243 4.243l4.5-4.5a3 3 0 00-1.242-5.244zM12.75 8.688a.75.75 0 00-1.06 1.06l1.757 1.757a3 3 0 010 4.243l-1.757 1.757a.75.75 0 101.06 1.06l1.757-1.757a4.5 4.5 0 000-6.364l-1.757-1.757z" /></svg></button> <input type="color" onchange="formatDoc('foreColor', this.value);" title="Text Color"> </div> <div id="topic-1-7-summary" class="summary-content prose prose-invert max-w-none text-gray-300"></div> <div class="mt-8 pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_1_7" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe src="https://www.youtube.com/embed/VIDEO_ID_1_7" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> <div class="flex flex-col sm:flex-row gap-3 sm:gap-4"> <a href="#" target="_blank" data-key="pdf_link_text_1_7" class="action-button inline-flex items-center bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg> Download PDF </a> <button onclick="toggleEdit('topic-1-7-summary', this)" data-key="edit_btn_1_7" class="action-button inline-flex items-center bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /> <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /> </svg> Edit Summary </button> </div> </div> </div>
+            <main id="content-display-area" class="w-full md:w-2/3 lg:w-3/4 md:flex-grow p-6 rounded-xl border border-gray-700/30 shadow-lg">
+                <div id="topic-5-1" class="content-section">
+                    <h2 data-key="title_5_1" class="text-2xl font-semibold text-teal-300 mb-5">5.1 Intro & Evolution</h2>
+                    <div class="pt-6 border-t border-gray-600/50">
+                        <h3 data-key="video_title_5_1" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3>
+                        <div class="video-wrapper mb-6">
+                            <iframe id="video-iframe-5-1" src="https://www.youtube.com/embed/placeholder_video_id_1_37" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="summary-wrapper">
+                        <div id="toolbar-topic-5-1-summary" class="editor-toolbar"> <button data-command="bold" title="Bold"><b>B</b></button> <button data-command="italic" title="Italic"><i>I</i></button> <button data-command="underline" title="Underline"><u>U</u></button> <button data-command="justifyLeft" title="Align Left">L</button> <button data-command="justifyCenter" title="Align Center">C</button> <button data-command="justifyRight" title="Align Right">R</button> <button data-command="insertUnorderedList" title="Bullet List">• List</button> <button data-command="insertOrderedList" title="Numbered List">1. List</button> <button data-command="createLink" title="Link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757a4.5 4.5 0 016.364 0l1.757 1.757a.75.75 0 11-1.06 1.06l-1.757-1.757a3 3 0 00-4.243 0l-1.757 1.757a3 3 0 104.243 4.243l4.5-4.5a3 3 0 00-1.242-5.244zM12.75 8.688a.75.75 0 00-1.06 1.06l1.757 1.757a3 3 0 010 4.243l-1.757 1.757a.75.75 0 101.06 1.06l1.757-1.757a4.5 4.5 0 000-6.364l-1.757-1.757z" /></svg></button> <input type="color" data-command="foreColor" title="Text Color"> </div>
+                        <div id="topic-5-1-summary" class="summary-content gradient-default prose prose-invert max-w-none text-gray-300"></div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 action-buttons-container">
+                        <a href="#" target="_blank" data-key="pdf_link_text_5_1" id="pdf-link-5-1" class="action-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg> Download PDF </a>
+                        <button data-summary-id="topic-5-1-summary" data-key="edit_btn_5_1" class="action-button edit-save-btn admin-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /> <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /> </svg> Edit Summary </button>
+                        <button data-target-iframe="video-iframe-5-1" data-key="edit_video_btn_5_1" class="action-button edit-video-btn admin-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8H5v-2h10v2z" clip-rule="evenodd" /></svg> Set Video Link </button>
+                        <button data-target-pdf="pdf-link-5-1" data-key="edit_pdf_btn_5_1" class="action-button edit-pdf-btn admin-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h4a1 1 0 100-2H7z" clip-rule="evenodd" /></svg> Set PDF Link </button>
+                    </div>
+                 </div>
+                <div id="topic-5-2" class="content-section">
+                    <h2 data-key="title_5_2" class="text-2xl font-semibold text-teal-300 mb-5">5.2 File Management</h2>
+                    <div class="pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_5_2" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe id="video-iframe-5-2" src="https://www.youtube.com/embed/placeholder_video_id_1_38" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> </div>
+                    <div class="summary-wrapper"> <div id="toolbar-topic-5-2-summary" class="editor-toolbar"> ... </div> <div id="topic-5-2-summary" class="summary-content gradient-default prose prose-invert max-w-none text-gray-300"></div> </div>
+                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 action-buttons-container"> <a href="#" target="_blank" data-key="pdf_link_text_5_2" id="pdf-link-5-2" class="action-button inline-flex items-center">...</a> <button data-summary-id="topic-5-2-summary" data-key="edit_btn_5_2" class="action-button edit-save-btn admin-button inline-flex items-center">...</button> <button data-target-iframe="video-iframe-5-2" data-key="edit_video_btn_5_2" class="action-button edit-video-btn admin-button inline-flex items-center">...</button> <button data-target-pdf="pdf-link-5-2" data-key="edit_pdf_btn_5_2" class="action-button edit-pdf-btn admin-button inline-flex items-center">...</button> </div>
+                </div>
+                 <div id="topic-5-3" class="content-section">
+                    <h2 data-key="title_5_3" class="text-2xl font-semibold text-teal-300 mb-5">5.3 Process Management</h2>
+                    <div class="pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_5_3" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe id="video-iframe-5-3" src="https://www.youtube.com/embed/placeholder_video_id_1_39" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> </div>
+                    <div class="summary-wrapper"> <div id="toolbar-topic-5-3-summary" class="editor-toolbar"> ... </div> <div id="topic-5-3-summary" class="summary-content gradient-default prose prose-invert max-w-none text-gray-300"></div> </div>
+                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 action-buttons-container"> <a href="#" target="_blank" data-key="pdf_link_text_5_3" id="pdf-link-5-3" class="action-button inline-flex items-center">...</a> <button data-summary-id="topic-5-3-summary" data-key="edit_btn_5_3" class="action-button edit-save-btn admin-button inline-flex items-center">...</button> <button data-target-iframe="video-iframe-5-3" data-key="edit_video_btn_5_3" class="action-button edit-video-btn admin-button inline-flex items-center">...</button> <button data-target-pdf="pdf-link-5-3" data-key="edit_pdf_btn_5_3" class="action-button edit-pdf-btn admin-button inline-flex items-center">...</button> </div>
+                 </div>
+                 <div id="topic-5-4" class="content-section">
+                    <h2 data-key="title_5_4" class="text-2xl font-semibold text-teal-300 mb-5">5.4 Resource Management</h2>
+                    <div class="pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_5_4" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe id="video-iframe-5-4" src="https://www.youtube.com/embed/placeholder_video_id_1_40" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> </div>
+                    <div class="summary-wrapper"> <div id="toolbar-topic-5-4-summary" class="editor-toolbar"> ... </div> <div id="topic-5-4-summary" class="summary-content gradient-default prose prose-invert max-w-none text-gray-300"></div> </div>
+                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 action-buttons-container"> <a href="#" target="_blank" data-key="pdf_link_text_5_4" id="pdf-link-5-4" class="action-button inline-flex items-center">...</a> <button data-summary-id="topic-5-4-summary" data-key="edit_btn_5_4" class="action-button edit-save-btn admin-button inline-flex items-center">...</button> <button data-target-iframe="video-iframe-5-4" data-key="edit_video_btn_5_4" class="action-button edit-video-btn admin-button inline-flex items-center">...</button> <button data-target-pdf="pdf-link-5-4" data-key="edit_pdf_btn_5_4" class="action-button edit-pdf-btn admin-button inline-flex items-center">...</button> </div>
+                 </div>
 
                 <div id="placeholder-content" class="text-center text-gray-500 pt-10">
                     <p data-key="placeholder_text">Select a topic from the list to view its content.</p>
@@ -358,43 +343,39 @@
             </a>
         </footer>
 
-    </div> <div id="password-modal-backdrop">
-        <div id="password-modal">
-            <h3 class="text-lg font-medium text-white mb-3">Enter Password</h3>
-            <p id="password-modal-instruction" class="text-sm text-gray-400 mb-4">
-                Enter the result of: <span id="random-number-display" class="random-number">X</span> + Today's Date (<span id="day-number-display" class="day-number">DD</span>)
-            </p>
-            <label for="password-input" class="sr-only">Password:</label>
-            <input type="password" id="password-input" name="password" placeholder="Enter calculated password">
-            <p id="password-error"></p>
-            <div class="password-modal-buttons">
-                <button id="password-cancel-btn" class="modal-button">Cancel</button>
-                <button id="password-submit-btn" class="modal-button">Submit</button>
-            </div>
+    </div>
+
+    <div id="auth-modal-backdrop">
+        <div id="auth-modal">
+            <h3>Admin Login</h3>
+            <div id="auth-error" class="text-red-500 text-sm mb-4 hidden"></div>
+            <button id="google-signin-btn">
+                 <i class="fab fa-google"></i> Sign in with Google
+            </button>
+             <button id="auth-cancel-btn">Cancel</button>
         </div>
     </div>
 
+
     <footer id="bottom-dashboard">
-        <div class="dashboard-section">
-            <button id="translate-btn" data-lang="si" class="dashboard-button" aria-label="Translate">
+        <div class="dashboard-section"> <button id="translate-btn" data-lang="si" class="dashboard-button" aria-label="Translate">
                 SI </button>
             <button id="fullscreen-btn" class="dashboard-button" aria-label="Toggle Fullscreen">
                 <span id="fullscreen-enter-icon">↕️</span>
                 <span id="fullscreen-exit-icon" class="hidden">🇽</span>
             </button>
-        </div>
-
-        <div class="dashboard-section">
-            <a href="index.html" id="home-btn" class="dashboard-button" aria-label="Home">
-                🏠
-            </a>
-        </div>
-
-        <div class="dashboard-section">
+            </div>
+        <a href="index.html" id="home-btn" class="dashboard-button" aria-label="Home">
+            🏠
+        </a>
+        <div class="dashboard-section"> <button id="mute-btn" class="dashboard-button" aria-label="Mute sound"> <i id="volume-icon" class="fas fa-volume-up"></i>
+                <i id="mute-icon" class="fas fa-volume-mute hidden"></i>
+            </button>
             <a href="https://t.me/MR_LXN" target="_blank" rel="noopener noreferrer" id="support-btn" class="dashboard-button" aria-label="Support">
                 💬
             </a>
-             <a href="donet.html" id="donate-btn" class="dashboard-button" aria-label="Donate"> 💖
+            <a href="donet.html" id="donate-btn" class="dashboard-button" aria-label="Donate">
+                💖
             </a>
         </div>
     </footer>
@@ -402,6 +383,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
     <script>
         // --- Firebase Configuration ---
@@ -417,57 +399,51 @@
 
         // --- Initialize Firebase ---
         let database;
+        let auth; // Firebase Auth instance
         try {
             if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
             else { firebase.app(); }
             database = firebase.database();
+            auth = firebase.auth(); // Initialize Auth
             console.log("Firebase initialized successfully.");
         } catch (e) {
             console.error("Error initializing Firebase:", e);
             alert("Could not connect to the database. Editing features may not work.");
         }
 
-        // --- Translation Data for Unit 1 ---
+        // --- Designated Admin Email ---
+        const ADMIN_EMAIL = "lxn000000@gmail.com"; // <<< Your Admin Email Here
+
+        // --- Translation Data for Unit 5 ---
         const translations = {
              en: {
-                 main_title: "Unit 1: Concept of ICT", main_subtitle: "Exploring the basic concepts, role, and applicability of ICT.",
-                 btn_1_1: "1.1 Information Basics", btn_1_2: "1.2 Need for Technology", btn_1_3: "1.3 Abstract Model", btn_1_4: "1.4 Computer Components", btn_1_5: "1.5 Data Processing", btn_1_6: "1.6 ICT Applications", btn_1_7: "1.7 Societal Impact",
-                 title_1_1: "1.1 Information Basics", video_title_1_1: "Watch Video", pdf_link_text_1_1: "Download PDF", edit_btn_1_1: "Edit Summary", save_btn_1_1: "Save Summary",
-                 "topic-1-1-summary": `<p>This section introduces the fundamental concepts of data and information. Key points include:</p><ul><li>The lifecycle of data: creation, management, and removal of obsolete data.</li><li>Distinction between raw <span class='font-semibold text-teal-400'>Data</span> and processed <span class='font-semibold text-indigo-400'>Information</span>.</li><li>Characteristics of valuable information: timeliness, accuracy, presented within context, enhanced understandability, and less uncertainty.</li><li>The need to handle large volumes and other complexities of data (Introduction to Big Data).</li></ul>`,
-                 title_1_2: "1.2 Need for Technology", video_title_1_2: "Watch Video", pdf_link_text_1_2: "Download PDF", edit_btn_1_2: "Edit Summary", save_btn_1_2: "Save Summary",
-                 "topic-1-2-summary": `<p>Explores why technology is essential for managing data and information effectively. Key points include:</p><ul><li>Applicability of information in day-to-day life (Decision making, Policy making, Predictions, Planning, scheduling and monitoring).</li><li>Drawbacks of manual methods in manipulating data and information (Inconsistency, duplication, errors, delays, lack of sharing, reduced customer services, infeasibility where harmful to humans).</li><li>Emergence of the ICT era to overcome drawbacks of manual methods.</li><li>Usage of information in various domains.</li><li>Availability and development of technologies: Computer networks, Internet, WWW, Mobile communication, Mobile computing, Cloud computing.</li></ul>`,
-                 title_1_3: "1.3 Abstract Model", video_title_1_3: "Watch Video", pdf_link_text_1_3: "Download PDF", edit_btn_1_3: "Edit Summary", save_btn_1_3: "Save Summary",
-                 "topic-1-3-summary": `<p>Presents a simplified model for how information is created. Key points include:</p><ul><li>Abstract model of information creation: <span class='font-semibold text-teal-400'>Input</span>, <span class='font-semibold text-indigo-400'>Process</span>, <span class='font-semibold text-purple-400'>Output</span>.</li><li>Its appropriateness to Computer and ICT systems.</li><li>Relating the abstract model to information systems.</li></ul>`,
-                 title_1_4: "1.4 Computer Components", video_title_1_4: "Watch Video", pdf_link_text_1_4: "Download PDF", edit_btn_1_4: "Edit Summary", save_btn_1_4: "Save Summary",
-                 "topic-1-4-summary": `<p>Identifies and classifies the essential parts of a computer system. Key points include:</p><ul><li><span class='font-semibold text-teal-400'>Hardware:</span> Physical components and their classification (input, output, CPU, storage).</li><li><span class='font-semibold text-indigo-400'>Software:</span> Programs and data; classification (system vs. application, proprietary vs. open source).</li><li><span class='font-semibold text-purple-400'>Human Operators:</span> Need and role of human operators in information systems, including safety issues.</li></ul>`,
-                 title_1_5: "1.5 Data Processing", video_title_1_5: "Watch Video", pdf_link_text_1_5: "Download PDF", edit_btn_1_5: "Edit Summary", save_btn_1_5: "Save Summary",
-                 "topic-1-5-summary": `<p>Analyzes the activities involved in data processing. Key points include:</p><ul><li>Steps: Data gathering, validation, processing, output, storage.</li><li>Gathering Methods: Manual, semi-automated, automated (using tools like OMR, OCR, MICR, card/tape readers, magnetic strip readers, barcode readers, sensors, loggers).</li><li>Validation Methods: Data type check, presence check, range check.</li><li>Input Modes: Direct/remote, online/offline.</li><li>Processing Modes: Batch, real-time.</li><li>Output Methods: Direct presentation, storing for further processing.</li><li>Storage Methods: Local, remote (cloud), short/long term.</li></ul>`,
-                 title_1_6: "1.6 ICT Applications", video_title_1_6: "Watch Video", pdf_link_text_1_6: "Download PDF", edit_btn_1_6: "Edit Summary", save_btn_1_6: "Save Summary",
-                 "topic-1-6-summary": `<p>Investigates the application of ICT in different domains. Key points include:</p><ul><li>Application examples in: Education, Healthcare, Agriculture, Business & Finance, Engineering, Tourism, Media & Journalism, Law Enforcement.</li><li>Discussion of specific benefits ICT brings to each domain.</li></ul>`,
-                 title_1_7: "1.7 Societal Impact", video_title_1_7: "Watch Video", pdf_link_text_1_7: "Download PDF", edit_btn_1_7: "Edit Summary", save_btn_1_7: "Save Summary",
-                 "topic-1-7-summary": `<p>Evaluates the broader effects of ICT on society. Key points include:</p><ul><li><span class='font-semibold text-teal-400'>Benefits:</span> Social (e.g., communication, access to information) and Economic (e.g., productivity, new industries).</li><li><span class='font-semibold text-rose-400'>Issues:</span> Social (digital divide), Economic (job displacement), Environmental (e-waste), Ethical (privacy, accuracy), Legal (piracy, copyright/intellectual property, plagiarism).</li><li>Specific concerns: Privacy, confidentiality, phishing, stealing, licensed/unlicensed software.</li><li>Role of ICT in achieving Sustainable Development Goals (SDGs).</li><li>Approaches to eliminate the digital divide.</li></ul>`,
+                 main_title: "Unit 5: Computer Operating System", main_subtitle: "Using operating systems to manage the functionality of computers.",
+                 btn_5_1: "5.1 Intro & Evolution", btn_5_2: "5.2 File Management", btn_5_3: "5.3 Process Management", btn_5_4: "5.4 Resource Management",
+                 title_5_1: "5.1 Intro & Evolution", video_title_5_1: "Watch Video", pdf_link_text_5_1: "Download PDF", edit_btn_5_1: "Edit Summary", save_btn_5_1: "Save Summary", edit_video_btn_5_1: "Set Video Link", edit_pdf_btn_5_1: "Set PDF Link",
+                 "topic-5-1-summary": `<p>Defines the computer operating system (OS) and investigates its need in computer systems.</p><ul><li>Evolution of OS.</li><li>Main functions: Providing interfaces, Process management, Resource management, Security and protection.</li><li>Classification: Single user-single task, Single user-multi task, Multi user-multi task, Multi-threading, Real time, Time sharing systems.</li></ul>`,
+                 title_5_2: "5.2 File Management", video_title_5_2: "Watch Video", pdf_link_text_5_2: "Download PDF", edit_btn_5_2: "Edit Summary", save_btn_5_2: "Save Summary", edit_video_btn_5_2: "Set Video Link", edit_pdf_btn_5_2: "Set PDF Link",
+                 "topic-5-2-summary": `<p>Explores how an operating system manages directories/folders and files.</p><ul><li>File types and their need (.exe, .jpg, .txt, etc.).</li><li>Directory and file organization: File hierarchy, File systems (FAT etc.).</li><li>File security: Passwords and access privileges.</li><li>File storage management: Contiguous, Linked, Indexed allocation.</li><li>Defragmentation.</li><li>Maintenance of secondary storage: Disk formatting.</li></ul>`,
+                 title_5_3: "5.3 Process Management", video_title_5_3: "Watch Video", pdf_link_text_5_3: "Download PDF", edit_btn_5_3: "Edit Summary", save_btn_5_3: "Save Summary", edit_video_btn_5_3: "Set Video Link", edit_pdf_btn_5_3: "Set PDF Link",
+                 "topic-5-3-summary": `<p>Explores how an operating system manages processes.</p><ul><li>Definition of a process.</li><li>Interrupts and interrupt handling.</li><li>Process states and transitions (using seven-state diagram).</li><li>Process Control Block (PCB).</li><li>Context switching.</li><li>Process schedulers (long, short, medium term) and scheduling policies.</li><li>Multiprogramming vs. Time sharing.</li><li>Turnaround time, response time, throughput time, waiting time.</li></ul>`,
+                 title_5_4: "5.4 Resource Management", video_title_5_4: "Watch Video", pdf_link_text_5_4: "Download PDF", edit_btn_5_4: "Edit Summary", save_btn_5_4: "Save Summary", edit_video_btn_5_4: "Set Video Link", edit_pdf_btn_5_4: "Set PDF Link",
+                 "topic-5-4-summary": `<p>Explores how an operating system manages resources like memory and I/O devices.</p><ul><li>Memory management: Memory Management Unit (MMU), Physical memory management, Virtual memory (paging, mapping).</li><li>Input/output device management: Device drivers, Spooling.</li></ul>`,
                  placeholder_text: "Select a topic from the list to view its content."
              },
-             si: { /* Sinhala translations */
-                 main_title: "ඒකකය 1: තොරතුරු හා සන්නිවේදන තාක්ෂණ සංකල්පය", main_subtitle: "තොරතුරු හා සන්නිවේදන තාක්ෂණයේ මූලික සංකල්ප, කාර්යභාරය සහ අදාළත්වය ගවේෂණය කිරීම.",
-                 btn_1_1: "1.1 තොරතුරු මූලිකාංග", btn_1_2: "1.2 තාක්ෂණයේ අවශ්‍යතාවය", btn_1_3: "1.3 සංක්ෂිප්ත ආකෘතිය", btn_1_4: "1.4 පරිගණක උපාංග", btn_1_5: "1.5 දත්ත සැකසීම", btn_1_6: "1.6 තොරතුරු තාක්ෂණ යෙදුම්", btn_1_7: "1.7 සමාජ බලපෑම",
-                 title_1_1: "1.1 තොරතුරු මූලිකාංග", video_title_1_1: "වීඩියෝව නරඹන්න", pdf_link_text_1_1: "සාරාංශ PDF බාගන්න", edit_btn_1_1: "සාරාංශය සංස්කරණය කරන්න", save_btn_1_1: "සාරාංශය සුරකින්න",
-                 "topic-1-1-summary": `<p>මෙම කොටස දත්ත සහ තොරතුරු පිළිබඳ මූලික සංකල්ප හඳුන්වා දෙයි. ප්‍රධාන කරුණු ඇතුළත් වේ:</p><ul><li>දත්ත වල ජීවන චක්‍රය: නිර්මාණය, කළමනාකරණය සහ යල් පැන ගිය දත්ත ඉවත් කිරීම.</li><li>අමු <span class='font-semibold text-teal-400'>දත්ත</span> සහ සැකසූ <span class='font-semibold text-indigo-400'>තොරතුරු</span> අතර වෙනස.</li><li>වටිනා තොරතුරුවල ලක්ෂණ: කාලෝචිත බව, නිරවද්‍යතාවය, සන්දර්භය තුළ ඉදිරිපත් කිරීම, වැඩිදියුණු කළ අවබෝධය සහ අඩු අවිනිශ්චිතතාවය.</li><li>විශාල දත්ත පරිමාවන් සහ අනෙකුත් සංකීර්ණතා හැසිරවීමේ අවශ්‍යතාවය (විශාල දත්ත හැඳින්වීම).</li></ul>`,
-                 title_1_2: "1.2 තාක්ෂණයේ අවශ්‍යතාවය", video_title_1_2: "වීඩියෝව නරඹන්න", pdf_link_text_1_2: "සාරාංශ PDF බාගන්න", edit_btn_1_2: "සාරාංශය සංස්කරණය කරන්න", save_btn_1_2: "සාරාංශය සුරකින්න",
-                 "topic-1-2-summary": `<p>දත්ත සහ තොරතුරු ඵලදායී ලෙස කළමනාකරණය කිරීමට තාක්ෂණය අත්‍යවශ්‍ය වන්නේ මන්දැයි ගවේෂණය කරයි. ප්‍රධාන කරුණු ඇතුළත් වේ:</p><ul><li>දෛනික ජීවිතයේ තොරතුරු වල අදාළත්වය (තීරණ ගැනීම, ප්‍රතිපත්ති සම්පාදනය, පුරෝකථනය, සැලසුම් කිරීම, කාලසටහන්ගත කිරීම සහ අධීක්ෂණය).</li><li>දත්ත සහ තොරතුරු හැසිරවීමේ අතින් ක්‍රමවල අවාසි (නොගැලපීම, අනුපිටපත් කිරීම, දෝෂ, ප්‍රමාදයන්, බෙදා නොගැනීම, පාරිභෝගික සේවා අඩු වීම, මිනිසුන්ට හානිකර විය හැකි ස්ථානවල ක්‍රියාත්මක වීමේ නොහැකියාව).</li><li>අතින් ක්‍රමවල අවාසි මඟහරවා ගැනීම සඳහා තොරතුරු තාක්ෂණ යුගයේ මතුවීම.</li><li>විවිධ වසම්වල තොරතුරු භාවිතය.</li><li>තාක්ෂණයන්හි පැවැත්ම සහ සංවර්ධනය: පරිගණක ජාල, අන්තර්ජාලය, WWW, ජංගම සන්නිවේදනය, ජංගම පරිගණනය, ක්ලවුඩ් පරිගණනය.</li></ul>`,
-                 title_1_3: "1.3 සංක්ෂිප්ත ආකෘතිය", video_title_1_3: "වීඩියෝව නරඹන්න", pdf_link_text_1_3: "සාරාංශ PDF බාගන්න", edit_btn_1_3: "සාරාංශය සංස්කරණය කරන්න", save_btn_1_3: "සාරාංශය සුරකින්න",
-                 "topic-1-3-summary": `<p>තොරතුරු නිර්මාණය වන ආකාරය පිළිබඳ සරල ආකෘතියක් ඉදිරිපත් කරයි. ප්‍රධාන කරුණු ඇතුළත් වේ:</p><ul><li>තොරතුරු නිර්මාණයේ සංක්ෂිප්ත ආකෘතිය: <span class='font-semibold text-teal-400'>ආදානය</span>, <span class='font-semibold text-indigo-400'>ක්‍රියාවලිය</span>, <span class='font-semibold text-purple-400'>ප්‍රතිදානය</span>.</li><li>පරිගණක සහ තොරතුරු තාක්ෂණ පද්ධති සඳහා එහි යෝග්‍යතාවය.</li><li>සංක්ෂිප්ත ආකෘතිය තොරතුරු පද්ධති සමඟ සම්බන්ධ කිරීම.</li></ul>`,
-                 title_1_4: "1.4 පරිගණක උපාංග", video_title_1_4: "වීඩියෝව නරඹන්න", pdf_link_text_1_4: "සාරාංශ PDF බාගන්න", edit_btn_1_4: "සාරාංශය සංස්කරණය කරන්න", save_btn_1_4: "සාරාංශය සුරකින්න",
-                 "topic-1-4-summary": `<p>පරිගණක පද්ධතියක අත්‍යවශ්‍ය කොටස් හඳුනාගෙන වර්ගීකරණය කරයි. ප්‍රධාන කරුණු ඇතුළත් වේ:</p><ul><li><span class='font-semibold text-teal-400'>දෘඪාංග:</span> භෞතික සංරචක සහ ඒවායේ වර්ගීකරණය (ආදාන, ප්‍රතිදාන, CPU, ආචයනය).</li><li><span class='font-semibold text-indigo-400'>මෘදුකාංග:</span> වැඩසටහන් සහ දත්ත; වර්ගීකරණය (පද්ධති එදිරිව යෙදුම්, හිමිකාර එදිරිව විවෘත මූලාශ්‍ර).</li><li><span class='font-semibold text-purple-400'>මානව ක්‍රියාකරුවන්:</span> තොරතුරු පද්ධතිවල මානව ක්‍රියාකරුවන්ගේ අවශ්‍යතාවය සහ භූමිකාව, ආරක්ෂක ගැටළු ඇතුළුව.</li></ul>`,
-                 title_1_5: "1.5 දත්ත සැකසීම", video_title_1_5: "වීඩියෝව නරඹන්න", pdf_link_text_1_5: "සාරාංශ PDF බාගන්න", edit_btn_1_5: "සාරාංශය සංස්කරණය කරන්න", save_btn_1_5: "සාරාංශය සුරකින්න",
-                 "topic-1-5-summary": `<p>දත්ත සැකසීමේදී ඇතුළත් වන ක්‍රියාකාරකම් විශ්ලේෂණය කරයි. ප්‍රධාන කරුණු ඇතුළත් වේ:</p><ul><li>පියවර: දත්ත රැස් කිරීම, වලංගු කිරීම, සැකසීම, ප්‍රතිදානය, ගබඩා කිරීම.</li><li>එකතු කිරීමේ ක්‍රම: අතින්, අර්ධ ස්වයංක්‍රීය, ස්වයංක්‍රීය (OMR, OCR, MICR, කාඩ්/ටේප් කියවන්නන්, චුම්බක තීරු කියවන්නන්, බාර්කෝඩ් කියවන්නන්, සංවේදක, ලොගර් වැනි මෙවලම් භාවිතයෙන්).</li><li>වලංගු කිරීමේ ක්‍රම: දත්ත වර්ග පරීක්ෂාව, පැමිණීමේ පරීක්ෂාව, පරාස පරීක්ෂාව.</li><li>ආදාන ක්‍රම: සෘජු/දුරස්ථ, සබැඳි/නොබැඳි.</li><li>සැකසුම් ක්‍රම: කණ්ඩායම්, තත්‍ය කාලීන.</li><li>ප්‍රතිදාන ක්‍රම: සෘජු ඉදිරිපත් කිරීම, වැඩිදුර සැකසීම සඳහා ගබඩා කිරීම.</li><li>ගබඩා කිරීමේ ක්‍රම: දේශීය, දුරස්ථ (ක්ලවුඩ්), කෙටි/දිගු කාලීන.</li></ul>`,
-                 title_1_6: "1.6 තොරතුරු තාක්ෂණ යෙදුම්", video_title_1_6: "වීඩියෝව නරඹන්න", pdf_link_text_1_6: "සාරාංශ PDF බාගන්න", edit_btn_1_6: "සාරාංශය සංස්කරණය කරන්න", save_btn_1_6: "සාරාංශය සුරකින්න",
-                 "topic-1-6-summary": `<p>විවිධ වසම්වල තොරතුරු තාක්ෂණය යෙදවීම විමර්ශනය කරයි. ප්‍රධාන කරුණු ඇතුළත් වේ:</p><ul><li>යෙදුම් උදාහරණ: අධ්‍යාපනය, සෞඛ්‍ය සේවා, කෘෂිකර්මය, ව්‍යාපාර සහ මූල්‍ය, ඉංජිනේරු විද්‍යාව, සංචාරක ව්‍යාපාරය, මාධ්‍ය සහ පුවත්පත් කලාව, නීතිය ක්‍රියාත්මක කිරීම.</li><li>එක් එක් වසමට තොරතුරු තාක්ෂණය ගෙන එන නිශ්චිත ප්‍රතිලාභ සාකච්ඡා කිරීම.</li></ul>`,
-                 title_1_7: "1.7 සමාජ බලපෑම", video_title_1_7: "වීඩියෝව නරඹන්න", pdf_link_text_1_7: "සාරාංශ PDF බාගන්න", edit_btn_1_7: "සාරාංශය සංස්කරණය කරන්න", save_btn_1_7: "සාරාංශය සුරකින්න",
-                 "topic-1-7-summary": `<p>සමාජය මත තොරතුරු තාක්ෂණයේ පුළුල් බලපෑම් ඇගයීමට ලක් කරයි. ප්‍රධාන කරුණු ඇතුළත් වේ:</p><ul><li><span class='font-semibold text-teal-400'>ප්‍රතිලාභ:</span> සමාජීය (උදා: සන්නිවේදනය, තොරතුරු වෙත ප්‍රවේශය) සහ ආර්ථික (උදා: ඵලදායිතාව, නව කර්මාන්ත).</li><li><span class='font-semibold text-rose-400'>ගැටළු:</span> සමාජීය (ඩිජිටල් බෙදීම), ආර්ථික (රැකියා විස්ථාපනය), පාරිසරික (ඉ-අපද්‍රව්‍ය), සදාචාරාත්මක (පෞද්ගලිකත්වය, නිරවද්‍යතාවය), නීතිමය (මුහුදු කොල්ලකෑම්, ප්‍රකාශන හිමිකම/බුද්ධිමය දේපළ, සොරකම් කිරීම).</li><li>විශේෂිත ගැටළු: පෞද්ගලිකත්වය, රහස්‍යභාවය, තතුබෑම්, සොරකම් කිරීම, බලපත්‍රලාභී/බලපත්‍ර රහිත මෘදුකාංග.</li><li>තිරසාර සංවර්ධන ඉලක්ක (SDGs) සාක්ෂාත් කර ගැනීම සඳහා තොරතුරු තාක්ෂණයේ කාර්යභාරය.</li><li>ඩිජිටල් බෙදීම ඉවත් කිරීමේ ප්‍රවේශයන්.</li></ul>`,
+             si: { /* Sinhala translations - Placeholders */
+                 main_title: "ඒකකය 5: පරිගණක මෙහෙයුම් පද්ධති", main_subtitle: "පරිගණකවල ක්‍රියාකාරීත්වය කළමනාකරණය කිරීම සඳහා මෙහෙයුම් පද්ධති භාවිතා කිරීම.",
+                 btn_5_1: "5.1 හැඳින්වීම සහ පරිණාමය", btn_5_2: "5.2 ගොනු කළමනාකරණය", btn_5_3: "5.3 ක්‍රියාවලි කළමනාකරණය", btn_5_4: "5.4 සම්පත් කළමනාකරණය",
+                 title_5_1: "5.1 හැඳින්වීම සහ පරිණාමය", video_title_5_1: "වීඩියෝව නරඹන්න", pdf_link_text_5_1: "සාරාංශ PDF බාගන්න", edit_btn_5_1: "සාරාංශය සංස්කරණය කරන්න", save_btn_5_1: "සාරාංශය සුරකින්න", edit_video_btn_5_1: "වීඩියෝ සබැඳිය සකසන්න", edit_pdf_btn_5_1: "PDF සබැඳිය සකසන්න",
+                 "topic-5-1-summary": `<p>පරිගණක මෙහෙයුම් පද්ධතිය (OS) අර්ථ දක්වන අතර පරිගණක පද්ධතිවල එහි අවශ්‍යතාවය විමර්ශනය කරයි.</p><ul><li>මෙහෙයුම් පද්ධති පරිණාමය.</li><li>ප්‍රධාන කාර්යයන්: අතුරුමුහුණත් සැපයීම, ක්‍රියාවලි කළමනාකරණය, සම්පත් කළමනාකරණය, ආරක්ෂාව සහ සුරැකීම.</li><li>වර්ගීකරණය: තනි පරිශීලක-තනි කාර්ය, තනි පරිශීලක-බහු කාර්ය, බහු පරිශීලක-බහු කාර්ය, බහු-නූල්කරණය, තත්‍ය කාලීන, කාලය බෙදාගැනීමේ පද්ධති.</li></ul>`,
+                 title_5_2: "5.2 ගොනු කළමනාකරණය", video_title_5_2: "වීඩියෝව නරඹන්න", pdf_link_text_5_2: "සාරාංශ PDF බාගන්න", edit_btn_5_2: "සාරාංශය සංස්කරණය කරන්න", save_btn_5_2: "සාරාංශය සුරකින්න", edit_video_btn_5_2: "වීඩියෝ සබැඳිය සකසන්න", edit_pdf_btn_5_2: "PDF සබැඳිය සකසන්න",
+                 "topic-5-2-summary": `<p>මෙහෙයුම් පද්ධතියක් නාමාවලි/ෆෝල්ඩර සහ ගොනු කළමනාකරණය කරන ආකාරය ගවේෂණය කරයි.</p><ul><li>ගොනු වර්ග සහ ඒවායේ අවශ්‍යතාවය (.exe, .jpg, .txt, etc.).</li><li>නාමාවලි සහ ගොනු සංවිධානය: ගොනු ධුරාවලිය, ගොනු පද්ධති (FAT etc.).</li><li>ගොනු ආරක්ෂාව: මුරපද සහ ප්‍රවේශ වරප්‍රසාද.</li><li>ගොනු ගබඩා කළමනාකරණය: සන්තතික, සම්බන්ධිත, සුචිගත වෙන් කිරීම.</li><li>විඛණ්ඩනය ඉවත් කිරීම (Defragmentation).</li><li>ද්විතීයික ආචයන නඩත්තුව: තැටි ආකෘතිකරණය (Disk formatting).</li></ul>`,
+                 title_5_3: "5.3 ක්‍රියාවලි කළමනාකරණය", video_title_5_3: "වීඩියෝව නරඹන්න", pdf_link_text_5_3: "සාරාංශ PDF බාගන්න", edit_btn_5_3: "සාරාංශය සංස්කරණය කරන්න", save_btn_5_3: "සාරාංශය සුරකින්න", edit_video_btn_5_3: "වීඩියෝ සබැඳිය සකසන්න", edit_pdf_btn_5_3: "PDF සබැඳිය සකසන්න",
+                 "topic-5-3-summary": `<p>මෙහෙයුම් පද්ධතියක් ක්‍රියාවලි කළමනාකරණය කරන ආකාරය ගවේෂණය කරයි.</p><ul><li>ක්‍රියාවලියක අර්ථ දැක්වීම.</li><li>බාධා කිරීම් සහ බාධා හැසිරවීම.</li><li>ක්‍රියාවලි අවස්ථා සහ සංක්‍රාන්ති (සත්-අවස්ථා රූප සටහන භාවිතයෙන්).</li><li>ක්‍රියාවලි පාලන කොටස (PCB).</li><li>සන්දර්භ මාරු කිරීම (Context switching).</li><li>ක්‍රියාවලි උපලේඛනගත කරන්නන් (දිගු, කෙටි, මධ්‍ය කාලීන) සහ උපලේඛනගත කිරීමේ ප්‍රතිපත්ති.</li><li>බහු ක්‍රමලේඛනය එදිරිව කාලය බෙදාගැනීම.</li><li>හැරවුම් කාලය, ප්‍රතිචාර කාලය, ප්‍රතිදාන කාලය, රැඳී සිටීමේ කාලය.</li></ul>`,
+                 title_5_4: "5.4 සම්පත් කළමනාකරණය", video_title_5_4: "වීඩියෝව නරඹන්න", pdf_link_text_5_4: "සාරාංශ PDF බාගන්න", edit_btn_5_4: "සාරාංශය සංස්කරණය කරන්න", save_btn_5_4: "සාරාංශය සුරකින්න", edit_video_btn_5_4: "වීඩියෝ සබැඳිය සකසන්න", edit_pdf_btn_5_4: "PDF සබැඳිය සකසන්න",
+                 "topic-5-4-summary": `<p>මෙහෙයුම් පද්ධතියක් මතකය සහ ආදාන/ප්‍රතිදාන උපාංග වැනි සම්පත් කළමනාකරණය කරන ආකාරය ගවේෂණය කරයි.</p><ul><li>මතක කළමනාකරණය: මතක කළමනාකරණ ඒකකය (MMU), භෞතික මතක කළමනාකරණය, අතාත්වික මතකය (පිටුකරණය, සිතියම්ගත කිරීම).</li><li>ආදාන/ප්‍රතිදාන උපාංග කළමනාකරණය: උපාංග ධාවක (Device drivers), ස්පූල් කිරීම (Spooling).</li></ul>`,
                  placeholder_text: "අන්තර්ගතය බැලීමට ලැයිස්තුවෙන් මාතෘකාවක් තෝරන්න."
              }
          };
+
 
         // --- UI Elements ---
         const topicListContainer = document.getElementById('topic-list');
@@ -480,40 +456,89 @@
         const fullscreenButton = document.getElementById('fullscreen-btn');
         const fullscreenEnterIcon = document.getElementById('fullscreen-enter-icon');
         const fullscreenExitIcon = document.getElementById('fullscreen-exit-icon');
+        const muteButton = document.getElementById('mute-btn');
+        const volumeIcon = document.getElementById('volume-icon');
+        const muteIcon = document.getElementById('mute-icon');
         const supportButton = document.getElementById('support-btn');
         const donateButton = document.getElementById('donate-btn');
         const homeButton = document.getElementById('home-btn');
         const translatableElements = document.querySelectorAll('[data-key]');
         const bodyElement = document.body;
-        // Password Modal Elements
-        const passwordModalBackdrop = document.getElementById('password-modal-backdrop');
-        const passwordModal = document.getElementById('password-modal');
-        const passwordInstruction = document.getElementById('password-modal-instruction');
-        const randomNumberDisplay = document.getElementById('random-number-display');
-        const dayNumberDisplay = document.getElementById('day-number-display'); // Span for day
-        const passwordInput = document.getElementById('password-input');
-        const passwordSubmitBtn = document.getElementById('password-submit-btn');
-        const passwordCancelBtn = document.getElementById('password-cancel-btn');
-        const passwordError = document.getElementById('password-error');
+        // Auth UI Elements
+        const authStatusDiv = document.getElementById('auth-status');
+        const userEmailSpan = document.getElementById('user-email');
+        const loginModalButton = document.getElementById('login-modal-btn');
+        const logoutButton = document.getElementById('logout-btn');
+        const authModalBackdrop = document.getElementById('auth-modal-backdrop');
+        const authModal = document.getElementById('auth-modal');
+        const googleSignInButton = document.getElementById('google-signin-btn'); // Google Button
+        const authCancelButton = document.getElementById('auth-cancel-btn');
+        const authErrorDiv = document.getElementById('auth-error');
 
-        // --- State for Password Check ---
-        let currentSummaryIdToEdit = null;
-        let currentEditButton = null;
-        let currentCorrectPassword = null; // Stores the calculated password string
+        // --- State ---
+        let isMuted = false; // Mute state for click sound
 
-        // --- Function to Load Summary from Firebase or Defaults ---
+        // --- Tone.js Sound Setup ---
+        let clickSound = null;
+        function initializeAudio() {
+            if (!clickSound && typeof Tone !== 'undefined' && Tone.MembraneSynth) {
+                 clickSound = new Tone.MembraneSynth({
+                    pitchDecay: 0.008,
+                    octaves: 2,
+                    envelope: { attack: 0.0006, decay: 0.5, sustain: 0 }
+                 }).toDestination();
+                 console.log("Tone.js click sound initialized.");
+                 if (Tone.context.state !== 'running') {
+                    Tone.start().then(() => console.log("Audio context started."));
+                 }
+            } else if (!clickSound) {
+                console.warn("Tone.js not fully loaded yet or MembraneSynth unavailable.");
+            }
+        }
+
+        function playButtonClickSound() {
+            if (!isMuted && clickSound) {
+                try {
+                    if (Tone.context.state !== 'running') {
+                        Tone.start().then(() => {
+                             clickSound.triggerAttackRelease("C2", "8n", Tone.now());
+                        });
+                    } else {
+                        clickSound.triggerAttackRelease("C2", "8n", Tone.now());
+                    }
+                } catch (error) {
+                    console.error("Error playing sound:", error);
+                    clickSound = null;
+                }
+            } else if (!isMuted) {
+                initializeAudio();
+                 if (clickSound) {
+                     try {
+                         if (Tone.context.state !== 'running') {
+                             Tone.start().then(() => {
+                                 clickSound.triggerAttackRelease("C2", "8n", Tone.now());
+                             });
+                         } else {
+                             clickSound.triggerAttackRelease("C2", "8n", Tone.now());
+                         }
+                     } catch (error) {
+                         console.error("Error playing sound after init:", error);
+                     }
+                 }
+            }
+        }
+
+        // --- Function to Load Summary from Firebase ---
         function loadSummary(summaryId, targetLang) {
             const summaryDiv = document.getElementById(summaryId);
             if (!summaryDiv || !database) return Promise.resolve();
             const defaultHTML = translations[targetLang]?.[summaryId] || `<p class="text-gray-400 italic">Default content not found for ${summaryId} [${targetLang}].</p>`;
             const dbPath = `summaries/${targetLang}/${summaryId}`;
-            console.log("Attempting to load summary from:", dbPath);
             const summaryRef = database.ref(dbPath);
             return summaryRef.once('value')
                 .then((snapshot) => {
                     const summaryHTML = snapshot.val();
                     summaryDiv.innerHTML = (summaryHTML !== null && summaryHTML !== undefined) ? summaryHTML : defaultHTML;
-                    console.log(summaryHTML !== null && summaryHTML !== undefined ? `Data found for ${dbPath}` : `No summary found for ${dbPath}, using default.`);
                 })
                 .catch((error) => {
                     console.error(`Error loading summary for ${dbPath}: `, error);
@@ -522,202 +547,278 @@
                 });
         }
 
+        // --- Function to Load Link from Firebase ---
+        function loadLink(targetElementId, linkType, targetLang) {
+            const targetElement = document.getElementById(targetElementId);
+            if (!targetElement || !database) return Promise.resolve();
+
+            const defaultUrl = (linkType === 'video' && targetElement.tagName === 'IFRAME') ? targetElement.getAttribute('src') :
+                               (linkType === 'pdf' && targetElement.tagName === 'A') ? targetElement.getAttribute('href') : '#';
+
+            const dbPath = `links/${targetLang}/${targetElementId}`;
+            const linkRef = database.ref(dbPath);
+
+            return linkRef.once('value')
+                .then((snapshot) => {
+                    const savedUrl = snapshot.val();
+                    const finalUrl = (savedUrl !== null && savedUrl !== undefined && savedUrl.trim() !== "") ? savedUrl : defaultUrl;
+
+                    if (linkType === 'video' && targetElement.tagName === 'IFRAME') {
+                        if (targetElement.src !== finalUrl) {
+                           targetElement.src = finalUrl;
+                           console.log(`Video link updated for ${targetElementId} from DB.`);
+                        }
+                    } else if (linkType === 'pdf' && targetElement.tagName === 'A') {
+                         if (targetElement.href !== finalUrl) {
+                            targetElement.href = finalUrl;
+                            console.log(`PDF link updated for ${targetElementId} from DB.`);
+                         }
+                    }
+                })
+                .catch((error) => {
+                    if (error.code !== 'PERMISSION_DENIED') {
+                         console.error(`Error loading link for ${dbPath}: `, error);
+                         alert(`Error loading ${linkType} link. See console.`);
+                    } else {
+                         console.warn(`Permission denied loading link for ${dbPath}. Using default.`);
+                    }
+                    if (linkType === 'video' && targetElement.tagName === 'IFRAME') {
+                        targetElement.src = defaultUrl;
+                    } else if (linkType === 'pdf' && targetElement.tagName === 'A') {
+                        targetElement.href = defaultUrl;
+                    }
+                    return Promise.reject(error);
+                });
+        }
+
+
         // --- Function to execute formatting commands ---
         function formatDoc(command, value = null) {
-             if (command === 'createLink') {
+            const visibleSection = contentDisplayArea.querySelector('.content-section.visible');
+            if (!visibleSection) return;
+            const activeEditor = visibleSection.querySelector('.summary-content[contenteditable="true"]');
+            if (!activeEditor) return;
+
+            activeEditor.focus();
+
+            if (command === 'createLink') {
                  let url = prompt("Enter the link URL:", "http://");
                  if (url && url !== "" && url !== "http://") {
                      document.execCommand(command, false, url);
                  }
+             } else if (command === 'foreColor') {
+                  document.execCommand(command, false, value);
              } else {
-                 document.execCommand(command, false, value);
+                 document.execCommand(command, false, null);
              }
-             const activeEditor = document.querySelector('.summary-content[contenteditable="true"]');
-             if(activeEditor) activeEditor.focus();
+            activeEditor.focus();
          }
 
         // --- Function to make summary editable ---
-        function makeEditable(summaryDiv, toolbar) { summaryDiv.setAttribute('contentEditable', 'true'); toolbar.classList.add('visible'); summaryDiv.focus(); console.log("Made editable:", summaryDiv.id); }
+        function makeEditable(summaryDiv, toolbar) {
+            summaryDiv.setAttribute('contentEditable', 'true');
+            toolbar.classList.add('visible');
+            summaryDiv.focus();
+            console.log("Made editable:", summaryDiv.id);
+        }
         // --- Function to make summary non-editable ---
-        function makeNonEditable(summaryDiv, toolbar) { summaryDiv.removeAttribute('contentEditable'); toolbar.classList.remove('visible'); console.log("Made non-editable:", summaryDiv.id); }
-
-        // --- Password Modal Functions ---
-        function showPasswordModal(summaryId, button) {
-            // Generate password components
-            const today = new Date();
-            const day = today.getDate(); // Day as number (e.g., 22)
-            const monthIndex = today.getMonth(); // 0 for Jan, 1 for Feb, etc.
-            const months = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
-            const monthFirstLetter = months[monthIndex]; // e.g., "A" for April
-            const randomNumber = Math.floor(Math.random() * 10) + 1; // Random number 1-10
-
-            // Calculate correct password string: MonthLetter + RandomNumber + Day
-            currentCorrectPassword = `${monthFirstLetter}${randomNumber}${day}`;
-            console.log("Month Letter:", monthFirstLetter, "Random:", randomNumber, "Day:", day, "Correct password:", currentCorrectPassword); // For debugging
-
-            // Store context
-            currentSummaryIdToEdit = summaryId;
-            currentEditButton = button;
-
-            // Update modal instruction text (hide month letter)
-            randomNumberDisplay.textContent = randomNumber;
-            dayNumberDisplay.textContent = String(day).padStart(2, '0'); // Display day padded
-            passwordInstruction.innerHTML = `Enter the code: <span class="random-number">${randomNumber}</span> + Today's Date (<span class="day-number">${String(day).padStart(2, '0')}</span>)`;
-
-
-            // Reset modal state
-            passwordInput.value = '';
-            passwordError.textContent = '';
-            passwordError.style.display = 'none';
-
-            // Show modal
-            passwordModalBackdrop.classList.add('visible');
-            setTimeout(() => passwordInput.focus(), 50); // Focus after transition
+        function makeNonEditable(summaryDiv, toolbar) {
+            summaryDiv.removeAttribute('contentEditable');
+            toolbar.classList.remove('visible');
+            console.log("Made non-editable:", summaryDiv.id);
         }
 
-        function hidePasswordModal() {
-            passwordModalBackdrop.classList.remove('visible');
-            // Clear context
-            currentSummaryIdToEdit = null;
-            currentEditButton = null;
-            currentCorrectPassword = null;
-        }
-
-        function handlePasswordSubmit() {
-            const enteredPassword = passwordInput.value.trim(); // Trim whitespace
-            if (enteredPassword === currentCorrectPassword) {
-                // Correct password: Enable editing
-                const summaryDiv = document.getElementById(currentSummaryIdToEdit);
-                const toolbar = document.getElementById(`toolbar-${currentSummaryIdToEdit}`);
-                const button = currentEditButton;
-                const currentLang = document.body.classList.contains('lang-si') ? 'si' : 'en';
-
-                if (summaryDiv && toolbar && button) {
-                    makeEditable(summaryDiv, toolbar);
-                    const saveKey = button.getAttribute('data-key').replace('edit', 'save');
-                    button.setAttribute('data-key', saveKey);
-                    setLanguage(currentLang, false); // Re-apply correct button text
-                }
-                hidePasswordModal();
+        // --- Function to Prompt for and Update Link (with Firebase Save) ---
+        function promptForLink(targetElementId, linkType) {
+            let promptMessage = "";
+            if (linkType === 'video') {
+                promptMessage = "Enter new YouTube EMBED URL (e.g., https://www.youtube.com/embed/VIDEO_ID):";
             } else {
-                // Incorrect password
-                passwordError.textContent = 'Incorrect password. Please try again.';
-                passwordError.style.display = 'block';
-                passwordInput.value = ''; // Clear input
-                passwordInput.focus();
-                // Optional: Add a shake animation
-                passwordModal.animate([
-                    { transform: 'translateX(-50%) translateY(-50%) translateX(-5px)' },
-                    { transform: 'translateX(-50%) translateY(-50%) translateX(5px)' },
-                    { transform: 'translateX(-50%) translateY(-50%) translateX(-5px)' },
-                    { transform: 'translateX(-50%) translateY(-50%) translateX(0)' }
-                ], { duration: 300, easing: 'ease-in-out' });
+                promptMessage = "Enter new PDF URL:";
+            }
+
+            const currentElement = document.getElementById(targetElementId);
+            const currentUrl = (linkType === 'video') ? currentElement?.src : currentElement?.href;
+
+            const newUrl = prompt(promptMessage, currentUrl || "");
+            const currentLang = document.body.classList.contains('lang-si') ? 'si' : 'en';
+
+            if (newUrl === null) return;
+
+            if (newUrl.trim() !== "") {
+                if (linkType === 'video' && !newUrl.includes('youtube.com/embed/')) {
+                    alert("Invalid YouTube Embed URL format. Please use the format: https://www.youtube.com/embed/VIDEO_ID");
+                    return;
+                }
+
+                const targetElement = document.getElementById(targetElementId);
+                if (targetElement) {
+                    if (linkType === 'video' && targetElement.tagName === 'IFRAME') {
+                        targetElement.src = newUrl;
+                    } else if (linkType === 'pdf' && targetElement.tagName === 'A') {
+                        targetElement.href = newUrl;
+                    } else {
+                        console.error(`Invalid target element or link type for ID: ${targetElementId}`);
+                        return;
+                    }
+
+                    const dbPath = `links/${currentLang}/${targetElementId}`;
+                    const linkRef = database.ref(dbPath);
+                    linkRef.set(newUrl)
+                        .then(() => {
+                            console.log(`${linkType} link saved successfully to Firebase at ${dbPath}`);
+                            alert(`${linkType === 'video' ? 'Video' : 'PDF'} link updated successfully!`);
+                        })
+                        .catch((error) => {
+                            console.error(`Error saving ${linkType} link to Firebase at ${dbPath}: `, error);
+                            alert(`Error saving ${linkType === 'video' ? 'Video' : 'PDF'} link. Check console.`);
+                            if (linkType === 'video') targetElement.src = currentUrl;
+                            else if (linkType === 'pdf') targetElement.href = currentUrl;
+                        });
+
+                } else {
+                    console.error(`Target element not found for ID: ${targetElementId}`);
+                }
+            } else {
+                alert("URL cannot be empty.");
             }
         }
 
-        // --- Event Listeners for Password Modal ---
-        passwordSubmitBtn.addEventListener('click', handlePasswordSubmit);
-        passwordCancelBtn.addEventListener('click', hidePasswordModal);
-        passwordModalBackdrop.addEventListener('click', (event) => {
-            if (event.target === passwordModalBackdrop) {
-                hidePasswordModal();
-            }
-        });
-        passwordInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                handlePasswordSubmit();
-            }
-        });
-
-
-        // --- Event Listener for Topic Selection ---
+        // --- Event Listener for Topic Selection (with Smooth Transitions) ---
         topicListContainer.addEventListener('click', function(event) {
             const button = event.target.closest('.topic-list-item');
-            if (button) {
-                const targetId = button.getAttribute('data-target');
-                const targetContent = document.getElementById(targetId);
-                const currentLang = document.body.classList.contains('lang-si') ? 'si' : 'en';
-                const currentlyVisible = contentDisplayArea.querySelector('.content-section.visible');
+            if (!button) return;
 
-                topicListItems.forEach(item => {
-                    item.classList.toggle('active', item === button);
-                    item.classList.toggle('inactive', item !== button);
-                });
+            const targetId = button.getAttribute('data-target');
+            const targetContent = document.getElementById(targetId);
+            const currentLang = document.body.classList.contains('lang-si') ? 'si' : 'en';
+            const currentlyVisible = contentDisplayArea.querySelector('.content-section.visible');
 
-                if (currentlyVisible) {
-                    const currentSummaryId = currentlyVisible.id + '-summary';
-                    const currentSummaryDiv = document.getElementById(currentSummaryId);
-                    const currentToolbar = document.getElementById(`toolbar-${currentSummaryId}`);
-                    const editButton = currentlyVisible.querySelector('button[data-key^="edit_btn"], button[data-key^="save_btn"]');
-                    if (currentSummaryDiv && currentToolbar && currentSummaryDiv.getAttribute('contentEditable') === 'true') {
-                        makeNonEditable(currentSummaryDiv, currentToolbar);
-                        if (editButton && editButton.getAttribute('data-key').startsWith('save_btn')) {
-                            const editKey = editButton.getAttribute('data-key').replace('save', 'edit');
-                            editButton.setAttribute('data-key', editKey);
-                            editButton.disabled = false;
-                        }
-                    }
-                    const iframe = currentlyVisible.querySelector('iframe');
-                     if (iframe && iframe.contentWindow) { try { iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*'); } catch(e) { console.warn("Could not stop video in iframe:", e); } }
-                }
+            if (currentlyVisible === targetContent) return;
+
+            topicListItems.forEach(item => {
+                item.classList.toggle('active', item === button);
+                item.classList.toggle('inactive', item !== button);
+            });
+
+            const showNewTopic = () => {
                 if (placeholderContent) placeholderContent.style.display = 'none';
-                contentSections.forEach(section => section.classList.remove('visible'));
-
                 if (targetContent) {
                     const summaryId = targetId + '-summary';
-                    loadSummary(summaryId, currentLang)
-                        .finally(() => {
-                            setTimeout(() => {
-                                targetContent.classList.add('visible');
-                                setLanguage(currentLang, false);
-                            }, 10);
+                    const videoIframeId = `video-iframe-${targetId.split('-')[1]}-${targetId.split('-')[2]}`;
+                    const pdfLinkId = `pdf-link-${targetId.split('-')[1]}-${targetId.split('-')[2]}`;
+
+                    Promise.allSettled([
+                        loadSummary(summaryId, currentLang),
+                        loadLink(videoIframeId, 'video', currentLang),
+                        loadLink(pdfLinkId, 'pdf', currentLang)
+                    ]).finally(() => {
+                            targetContent.style.display = 'block';
+                            requestAnimationFrame(() => {
+                                requestAnimationFrame(() => {
+                                    targetContent.classList.add('visible');
+                                    setLanguage(currentLang, false);
+                                });
+                            });
                         });
                 } else {
                     if (placeholderContent) placeholderContent.style.display = 'block';
                 }
+            };
+
+            if (currentlyVisible) {
+                 const currentSummaryId = currentlyVisible.id + '-summary';
+                 const currentSummaryDiv = document.getElementById(currentSummaryId);
+                 const currentToolbar = document.getElementById(`toolbar-${currentSummaryId}`);
+                 const editButton = currentlyVisible.querySelector('.edit-save-btn');
+                 if (currentSummaryDiv && currentToolbar && currentSummaryDiv.getAttribute('contentEditable') === 'true') {
+                     makeNonEditable(currentSummaryDiv, currentToolbar);
+                     if (editButton && editButton.getAttribute('data-key').startsWith('save_btn')) {
+                         const editKey = editButton.getAttribute('data-key').replace('save', 'edit');
+                         editButton.setAttribute('data-key', editKey);
+                         editButton.disabled = false;
+                     }
+                 }
+                 const iframe = currentlyVisible.querySelector('iframe');
+                 if (iframe && iframe.contentWindow) { try { iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*'); } catch(e) { console.warn("Could not stop video in iframe:", e); } }
+
+                currentlyVisible.classList.remove('visible');
+
+                currentlyVisible.addEventListener('transitionend', function handler(e) {
+                    if (e.propertyName === 'opacity') {
+                        currentlyVisible.style.display = 'none';
+                        currentlyVisible.removeEventListener('transitionend', handler);
+                        showNewTopic();
+                    }
+                }, { once: false });
+
+            } else {
+                showNewTopic();
             }
         });
 
-        // --- Edit/Save Function (Modified for Password) ---
-        function toggleEdit(summaryId, button) {
-            const summaryDiv = document.getElementById(summaryId);
-            const toolbar = document.getElementById(`toolbar-${summaryId}`);
-            if (!summaryDiv || !toolbar || !database) { console.error("Summary div, toolbar, or database not found/initialized.", summaryId); return; }
-            const isEditing = summaryDiv.getAttribute('contentEditable') === 'true';
-            const currentLang = document.body.classList.contains('lang-si') ? 'si' : 'en';
-            console.log(`toggleEdit called for ${summaryId}. Is editing: ${isEditing}. Language: ${currentLang}`);
 
-            if (isEditing) { // If currently editing, save the content
-                const editedContent = summaryDiv.innerHTML;
-                console.log("Content to save:", editedContent);
-                makeNonEditable(summaryDiv, toolbar);
-                const dbPath = `summaries/${currentLang}/${summaryId}`;
-                console.log("Saving to Firebase path:", dbPath);
-                const summaryRef = database.ref(dbPath);
-                button.disabled = true;
-                const iconSVG = button.querySelector('svg.icon');
-                button.textContent = 'Saving...';
-                if(iconSVG) button.prepend(iconSVG.cloneNode(true));
-                summaryRef.set(editedContent)
-                    .then(() => {
-                        console.log(`Summary saved successfully to Firebase at ${dbPath}`);
-                        button.disabled = false;
-                        const editKey = button.getAttribute('data-key').replace('save', 'edit');
-                        button.setAttribute('data-key', editKey);
-                        setLanguage(currentLang, false);
-                    })
-                    .catch((error) => {
-                        console.error(`Error saving summary to Firebase at ${dbPath}: `, error);
-                        alert("Error saving summary. Please check console and Firebase rules.");
-                        button.disabled = false;
-                        const saveKey = button.getAttribute('data-key');
-                        setLanguage(currentLang, false);
-                    });
-            } else { // If not editing, show the password modal
-                showPasswordModal(summaryId, button);
+        // --- Edit/Save/Link Button Logic (Now requires Auth) ---
+        function handleAdminAction(button) {
+            if (!auth || !auth.currentUser) {
+                alert("Please log in as admin to perform this action.");
+                showAuthModal();
+                return;
+            }
+             // Check if the logged-in user is the designated admin
+            if (auth.currentUser.email !== ADMIN_EMAIL) {
+                alert("You are not authorized to perform this action.");
+                return;
+            }
+
+            // If logged in AND authorized, proceed
+            if (button.classList.contains('edit-save-btn')) {
+                const summaryId = button.dataset.summaryId;
+                const summaryDiv = document.getElementById(summaryId);
+                const toolbar = document.getElementById(`toolbar-${summaryId}`);
+                const isEditing = summaryDiv.getAttribute('contentEditable') === 'true';
+                const currentLang = document.body.classList.contains('lang-si') ? 'si' : 'en';
+
+                if (isEditing) { // Save action
+                    const editedContent = summaryDiv.innerHTML;
+                    makeNonEditable(summaryDiv, toolbar);
+                    const dbPath = `summaries/${currentLang}/${summaryId}`;
+                    const summaryRef = database.ref(dbPath);
+                    button.disabled = true;
+                    const iconSVG = button.querySelector('svg.icon');
+                    button.textContent = 'Saving...';
+                    if(iconSVG) button.prepend(iconSVG.cloneNode(true));
+                    summaryRef.set(editedContent)
+                        .then(() => {
+                            console.log(`Summary saved successfully to Firebase at ${dbPath}`);
+                            button.disabled = false;
+                            const editKey = button.getAttribute('data-key').replace('save', 'edit');
+                            button.setAttribute('data-key', editKey);
+                            setLanguage(currentLang, false);
+                        })
+                        .catch((error) => {
+                            console.error(`Error saving summary to Firebase at ${dbPath}: `, error);
+                            alert("Error saving summary. Ensure you are logged in and have write permissions.");
+                            button.disabled = false;
+                            const saveKey = button.getAttribute('data-key');
+                            setLanguage(currentLang, false);
+                        });
+                } else { // Edit action
+                    makeEditable(summaryDiv, toolbar);
+                    const saveKey = button.getAttribute('data-key').replace('edit', 'save');
+                    button.setAttribute('data-key', saveKey);
+                    setLanguage(currentLang, false);
+                }
+
+            } else if (button.classList.contains('edit-video-btn')) {
+                const iframeId = button.dataset.targetIframe;
+                if (iframeId) promptForLink(iframeId, 'video');
+            } else if (button.classList.contains('edit-pdf-btn')) {
+                const linkId = button.dataset.targetPdf;
+                if (linkId) promptForLink(linkId, 'pdf');
             }
         }
+
 
         // --- Translation Logic ---
         function setLanguage(lang, reloadSummary = true) {
@@ -725,7 +826,7 @@
             const activeTopicButton = topicListContainer.querySelector('.topic-list-item.active');
             const currentVisibleSection = contentDisplayArea.querySelector('.content-section.visible');
 
-            translatableElements.forEach(element => {
+            document.querySelectorAll('[data-key]').forEach(element => {
                 const key = element.getAttribute('data-key');
                 const isSummaryContent = element.classList.contains('summary-content');
                 const parentSummaryDiv = element.closest('div[id$="-summary"]');
@@ -737,7 +838,8 @@
                      if ((element.tagName === 'BUTTON' || element.tagName === 'A') && iconSVG && element.classList.contains('action-button')) {
                          element.textContent = translatedText; element.prepend(iconSVG); element.classList.add('inline-flex', 'items-center');
                      }
-                     else if (element.tagName === 'BUTTON' && (element.getAttribute('data-key').startsWith('edit_btn_') || element.getAttribute('data-key').startsWith('save_btn_'))) {
+                     // Handle edit/save/link buttons specifically
+                     else if (element.tagName === 'BUTTON' && (element.classList.contains('edit-save-btn') || element.classList.contains('edit-video-btn') || element.classList.contains('edit-pdf-btn'))) {
                          const currentIcon = element.querySelector('svg.icon');
                          element.textContent = translatedText;
                          if (currentIcon) element.prepend(currentIcon);
@@ -748,7 +850,8 @@
                      }
                      else { element.textContent = translatedText; }
                 } else if (isBeingEdited) {
-                     if (element.tagName === 'BUTTON' && (element.getAttribute('data-key').startsWith('edit_btn_') || element.getAttribute('data-key').startsWith('save_btn_'))) {
+                     // Only update save button text if editing
+                     if (element.tagName === 'BUTTON' && element.classList.contains('edit-save-btn') && element.getAttribute('data-key').startsWith('save_btn_')) {
                          const currentIcon = element.querySelector('svg.icon');
                          element.textContent = translations[lang][key];
                          if (currentIcon) element.prepend(currentIcon);
@@ -765,20 +868,29 @@
 
             if (currentVisibleSection && reloadSummary) {
                 const summaryId = currentVisibleSection.id + '-summary';
+                const videoIframeId = currentVisibleSection.querySelector('iframe')?.id;
+                const pdfLinkId = currentVisibleSection.querySelector('a[id^="pdf-link-"]')?.id;
                 const summaryDiv = document.getElementById(summaryId);
                 const toolbar = document.getElementById(`toolbar-${summaryId}`);
                 if (summaryDiv && toolbar && summaryDiv.getAttribute('contentEditable') === 'true') {
                     makeNonEditable(summaryDiv, toolbar);
-                     const editButton = currentVisibleSection.querySelector('button[data-key^="edit_btn"], button[data-key^="save_btn"]');
+                     const editButton = currentVisibleSection.querySelector('.edit-save-btn');
                      if(editButton) {
                          const editKey = editButton.getAttribute('data-key').startsWith('save_') ? editButton.getAttribute('data-key').replace('save', 'edit') : editButton.getAttribute('data-key');
                          editButton.setAttribute('data-key', editKey);
                          editButton.disabled = false;
-                         setLanguage(lang, false);
+                         // No need to call setLanguage again here, it's done below
                      }
                 }
-                loadSummary(summaryId, lang).finally(() => { setLanguage(lang, false); });
-            } else if (currentVisibleSection) {
+                // Load summary and links for the new language
+                Promise.allSettled([ // Use allSettled
+                    loadSummary(summaryId, lang),
+                    videoIframeId ? loadLink(videoIframeId, 'video', lang) : Promise.resolve(),
+                    pdfLinkId ? loadLink(pdfLinkId, 'pdf', lang) : Promise.resolve()
+                ]).finally(() => {
+                    setLanguage(lang, false); // Update static text after all loads complete
+                });
+            } else if (currentVisibleSection) { // Update static text if not reloading summary
                  currentVisibleSection.querySelectorAll('[data-key]:not(.summary-content)').forEach(el => {
                      const key = el.getAttribute('data-key');
                      if (translations[lang]?.[key]) {
@@ -834,6 +946,17 @@
 
         fullscreenButton.addEventListener('click', toggleFullScreen);
         document.addEventListener('fullscreenchange', updateFullscreenButtonIcon);
+
+        // --- Mute Button Logic (for click sound) ---
+        muteButton.addEventListener('click', () => {
+            isMuted = !isMuted; // Toggle mute state for click sound
+            volumeIcon.classList.toggle('hidden', isMuted);
+            muteIcon.classList.toggle('hidden', !isMuted);
+            muteButton.setAttribute('aria-label', isMuted ? 'Unmute sound' : 'Mute sound');
+            if (!isMuted) {
+                 playButtonClickSound();
+            }
+        });
 
         // --- Auto-Hide Dashboard Logic ---
         let dashboardTimeout;
@@ -916,14 +1039,152 @@
 
         window.addEventListener('resize', setupMatrix);
 
+        // --- Authentication Logic ---
+        function showAuthModal() { authModalBackdrop.classList.add('visible'); }
+        function hideAuthModal() { authModalBackdrop.classList.remove('visible'); authErrorDiv.style.display = 'none'; }
+
+        loginModalButton.addEventListener('click', showAuthModal);
+        authCancelButton.addEventListener('click', hideAuthModal);
+        authModalBackdrop.addEventListener('click', (e) => { if (e.target === authModalBackdrop) hideAuthModal(); });
+
+        // Google Sign In
+        googleSignInButton.addEventListener('click', () => {
+            authErrorDiv.style.display = 'none'; // Hide previous errors
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    // const credential = result.credential;
+                    // const token = credential.accessToken;
+                    // The signed-in user info.
+                    const user = result.user;
+                    console.log("Google Sign-in successful:", user.email);
+                    hideAuthModal();
+                    // Auth state change will handle UI updates
+                }).catch((error) => {
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // The email of the user's account used.
+                    const email = error.email;
+                    // The firebase.auth.AuthCredential type that was used.
+                    const credential = error.credential;
+                    console.error("Google Sign-in Error:", errorCode, errorMessage, email, credential);
+                    authErrorDiv.textContent = errorMessage;
+                    authErrorDiv.style.display = 'block';
+                });
+        });
+
+        // Logout
+        logoutButton.addEventListener('click', () => {
+            auth.signOut().then(() => {
+                console.log("Logout successful");
+                 // Auth state change will handle UI updates
+            }).catch((error) => {
+                console.error("Logout Error:", error);
+                alert("Error logging out.");
+            });
+        });
+
+        // Auth State Change Listener
+        auth.onAuthStateChanged((user) => {
+            if (user && user.email === ADMIN_EMAIL) { // Check if user exists AND email matches admin
+                // User is the designated Admin
+                console.log("Admin logged in:", user.email);
+                bodyElement.classList.add('admin-logged-in'); // Add class to show admin buttons
+                loginModalButton.classList.add('hidden');
+                logoutButton.classList.remove('hidden');
+                userEmailSpan.textContent = user.email;
+                userEmailSpan.classList.remove('hidden');
+
+            } else {
+                // User is signed out OR is not the designated admin
+                if (user) {
+                    console.log("Logged in user is not admin:", user.email);
+                    // Optionally log out non-admin users immediately
+                    // auth.signOut();
+                } else {
+                    console.log("User logged out");
+                }
+                bodyElement.classList.remove('admin-logged-in'); // Remove class to hide admin buttons
+                loginModalButton.classList.remove('hidden');
+                logoutButton.classList.add('hidden');
+                userEmailSpan.textContent = '';
+                userEmailSpan.classList.add('hidden');
+
+                // If user logs out (or is not admin) while editing, revert the edit state
+                const currentlyVisible = contentDisplayArea.querySelector('.content-section.visible');
+                if (currentlyVisible) {
+                     const currentSummaryId = currentlyVisible.id + '-summary';
+                     const currentSummaryDiv = document.getElementById(currentSummaryId);
+                     const currentToolbar = document.getElementById(`toolbar-${currentSummaryId}`);
+                     const editButton = currentlyVisible.querySelector('.edit-save-btn');
+                     if (currentSummaryDiv && currentToolbar && currentSummaryDiv.getAttribute('contentEditable') === 'true') {
+                         makeNonEditable(currentSummaryDiv, currentToolbar);
+                         if (editButton && editButton.getAttribute('data-key').startsWith('save_btn')) {
+                             const editKey = editButton.getAttribute('data-key').replace('save', 'edit');
+                             editButton.setAttribute('data-key', editKey);
+                             editButton.disabled = false;
+                             // Reload summary to discard unsaved changes
+                             const currentLang = document.body.classList.contains('lang-si') ? 'si' : 'en';
+                             loadSummary(currentSummaryId, currentLang);
+                         }
+                     }
+                }
+            }
+        });
+
+
+        // --- Enhanced Event Delegation for Editor Toolbar & Button Sounds ---
+        document.body.addEventListener('click', function(event) {
+            const target = event.target;
+            const targetButton = target.closest('button'); // Find closest button
+
+            // Play sound for relevant button clicks (excluding mute itself)
+            if (targetButton && targetButton.id !== 'mute-btn' && (
+                targetButton.classList.contains('topic-list-item') ||
+                targetButton.classList.contains('action-button') ||
+                targetButton.classList.contains('dashboard-button') ||
+                targetButton.classList.contains('modal-button') || // Added modal buttons
+                targetButton.closest('.editor-toolbar')
+            )) {
+                playButtonClickSound();
+            }
+
+            // --- Editor Toolbar Button Click ---
+            if (targetButton && targetButton.closest('.editor-toolbar')) {
+                 const command = targetButton.dataset.command;
+                 if (command) {
+                     formatDoc(command);
+                 }
+            }
+            // --- Admin Action Button Click ---
+             else if (targetButton && targetButton.classList.contains('admin-button')) {
+                 handleAdminAction(targetButton); // Call the new handler
+             }
+        }, true); // Use capture phase
+
+        // Handle color input change separately using event delegation
+        contentDisplayArea.addEventListener('change', function(event) {
+            const target = event.target;
+            if (target.matches('.editor-toolbar input[type="color"][data-command="foreColor"]')) {
+                formatDoc('foreColor', target.value);
+            }
+        });
+
 
         // --- Initial Setup ---
-        contentSections.forEach(section => section.classList.remove('visible'));
+        // Removed checkAdminMode()
+        const updatedContentSections = contentDisplayArea.querySelectorAll('.content-section');
+        updatedContentSections.forEach(section => section.classList.remove('visible'));
         if (placeholderContent) placeholderContent.style.display = 'block';
         const initialLang = 'en';
         setLanguage(initialLang, false); // Apply initial translations
         startMatrix();
         updateFullscreenButtonIcon(); // Set initial fullscreen icon state
+        // Initialize audio context on first user interaction
+        document.body.addEventListener('click', initializeAudio, { once: true });
+
 
     </script>
 
