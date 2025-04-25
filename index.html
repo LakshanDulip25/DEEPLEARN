@@ -187,13 +187,15 @@
         .action-buttons-container {
             margin-top: 1.5rem;
             position: relative; /* Needed for absolute positioning of menu */
+            display: flex; /* Use flexbox for layout */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            gap: 0.75rem; /* Space between buttons */
+            align-items: center; /* Align items vertically */
         }
 
         /* Admin Edit Toggle Button */
         .admin-edit-toggle {
-            position: absolute;
-            top: -2.5rem; /* Position above the action buttons container */
-            right: 0.5rem;
+            /* Removed absolute positioning */
             width: 2.25rem;
             height: 2.25rem;
             border-radius: 50%;
@@ -206,6 +208,8 @@
             justify-content: center;
             color: white;
             transition: all 0.2s ease;
+            flex-shrink: 0; /* Prevent shrinking */
+            margin-left: auto; /* Push to the right within flex container */
         }
         .admin-edit-toggle:hover {
             background-color: rgba(79, 70, 229, 0.9);
@@ -219,8 +223,9 @@
         /* Admin Actions Menu (Dropdown/Popup) */
         .admin-actions-menu {
             position: absolute;
-            top: -0.5rem; /* Position near the toggle button */
-            right: 3.0rem; /* To the left of the toggle button */
+            /* Position relative to the container, near the toggle button's expected area */
+            top: -1rem; /* Adjust as needed, slightly above the buttons */
+            right: 0.5rem; /* Align to the right */
             background-color: rgba(55, 65, 81, 0.95); /* gray-700 */
             backdrop-filter: blur(5px);
             border-radius: 0.5rem;
@@ -246,6 +251,7 @@
             flex-grow: 0; /* Don't allow flex-grow */
             font-size: 0.8rem; /* Slightly smaller text */
             padding: 0.5rem 0.8rem;
+            /* Removed admin-button class from inner buttons */
         }
         .admin-actions-menu .action-button svg {
             width: 1rem; height: 1rem; margin-right: 0.3rem;
@@ -255,7 +261,7 @@
         #content-display-area { min-height: 300px; background: rgba(17, 24, 39, 0.6); border-radius: 1rem; }
 
         /* Styles for contentEditable and Toolbar */
-        .summary-content { padding: 1rem; border: 1px solid transparent; border-radius: 0.5rem; min-height: 120px; background: rgba(55, 65, 81, 0.3); transition: border 0.3s ease, background-color 0.3s ease, background-image 0.3s ease; line-height: 1.7; position: relative; }
+        .summary-content { padding: 1rem; border: 1px solid transparent; border-radius: 0.5rem; min-height: 120px; background: rgba(55, 65, 81, 0.3); transition: border 0.3s ease, background-color 0.3s ease; line-height: 1.7; position: relative; }
         .summary-content[contenteditable="true"] { border: 1px solid #4b5563; min-height: 150px; background-color: #374151; color: #e5e7eb; outline: none; border-radius: 0 0 0.5rem 0.5rem; }
         .summary-content[contenteditable="true"]:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3); }
         .editor-toolbar { display: none; background-color: #1f2937; padding: 0.6rem; border-radius: 0.5rem 0.5rem 0 0; border: 1px solid #4b5563; border-bottom: none; margin-bottom: 0px; flex-wrap: wrap; gap: 0.4rem; }
@@ -315,10 +321,8 @@
 
             <main id="content-display-area" class="w-full md:w-2/3 lg:w-3/4 md:flex-grow p-6 rounded-xl border border-gray-700/30 shadow-lg">
                 <div id="topic-5-1" class="content-section">
-                    <div class="flex justify-between items-start"> <h2 data-key="title_5_1" class="text-2xl font-semibold text-teal-300 mb-5">5.1 Intro & Evolution</h2>
-                         <button class="admin-edit-toggle admin-button" data-menu-target="admin-actions-5-1" title="Admin Actions"><i class="fas fa-cog"></i></button>
-                    </div>
-                    <div class="pt-6 border-t border-gray-600/50">
+                    <h2 data-key="title_5_1" class="text-2xl font-semibold text-teal-300 mb-5">5.1 Intro & Evolution</h2>
+                     <div class="pt-6 border-t border-gray-600/50">
                         <h3 data-key="video_title_5_1" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3>
                         <div class="video-wrapper mb-6">
                             <iframe id="video-iframe-5-1" src="https://www.youtube.com/embed/placeholder_video_id_1_37" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -330,55 +334,50 @@
                     </div>
                     <div class="action-buttons-container">
                         <a href="#" target="_blank" data-key="pdf_link_text_5_1" id="pdf-link-5-1" class="action-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg> Download PDF </a>
+                        <button class="admin-edit-toggle admin-button" data-menu-target="admin-actions-5-1" title="Admin Actions"><i class="fas fa-cog"></i></button>
                         <div id="admin-actions-5-1" class="admin-actions-menu">
-                            <button data-summary-id="topic-5-1-summary" data-key="edit_btn_5_1" class="action-button edit-save-btn admin-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /> <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /> </svg> Edit Summary </button>
-                            <button data-target-iframe="video-iframe-5-1" data-key="edit_video_btn_5_1" class="action-button edit-video-btn admin-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8H5v-2h10v2z" clip-rule="evenodd" /></svg> Set Video Link </button>
-                            <button data-target-pdf="pdf-link-5-1" data-key="edit_pdf_btn_5_1" class="action-button edit-pdf-btn admin-button inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h4a1 1 0 100-2H7z" clip-rule="evenodd" /></svg> Set PDF Link </button>
+                            <button data-summary-id="topic-5-1-summary" data-key="edit_btn_5_1" class="action-button edit-save-btn inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /> <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /> </svg> Edit Summary </button>
+                            <button data-target-iframe="video-iframe-5-1" data-key="edit_video_btn_5_1" class="action-button edit-video-btn inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8H5v-2h10v2z" clip-rule="evenodd" /></svg> Set Video Link </button>
+                            <button data-target-pdf="pdf-link-5-1" data-key="edit_pdf_btn_5_1" class="action-button edit-pdf-btn inline-flex items-center"> <svg class="icon fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h4a1 1 0 100-2H7z" clip-rule="evenodd" /></svg> Set PDF Link </button>
                         </div>
                     </div>
                  </div>
                 <div id="topic-5-2" class="content-section">
-                    <div class="flex justify-between items-start">
-                         <h2 data-key="title_5_2" class="text-2xl font-semibold text-teal-300 mb-5">5.2 File Management</h2>
-                         <button class="admin-edit-toggle admin-button" data-menu-target="admin-actions-5-2" title="Admin Actions"><i class="fas fa-cog"></i></button>
-                    </div>
+                     <h2 data-key="title_5_2" class="text-2xl font-semibold text-teal-300 mb-5">5.2 File Management</h2>
                     <div class="pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_5_2" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe id="video-iframe-5-2" src="https://www.youtube.com/embed/placeholder_video_id_1_38" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> </div>
                     <div class="summary-wrapper"> <div id="toolbar-topic-5-2-summary" class="editor-toolbar"> ... </div> <div id="topic-5-2-summary" class="summary-content gradient-default prose prose-invert max-w-none text-gray-300"></div> </div>
                     <div class="action-buttons-container"> <a href="#" target="_blank" data-key="pdf_link_text_5_2" id="pdf-link-5-2" class="action-button inline-flex items-center">...</a>
+                        <button class="admin-edit-toggle admin-button" data-menu-target="admin-actions-5-2" title="Admin Actions"><i class="fas fa-cog"></i></button>
                          <div id="admin-actions-5-2" class="admin-actions-menu">
-                            <button data-summary-id="topic-5-2-summary" data-key="edit_btn_5_2" class="action-button edit-save-btn admin-button inline-flex items-center">...</button>
-                            <button data-target-iframe="video-iframe-5-2" data-key="edit_video_btn_5_2" class="action-button edit-video-btn admin-button inline-flex items-center">...</button>
-                            <button data-target-pdf="pdf-link-5-2" data-key="edit_pdf_btn_5_2" class="action-button edit-pdf-btn admin-button inline-flex items-center">...</button>
+                            <button data-summary-id="topic-5-2-summary" data-key="edit_btn_5_2" class="action-button edit-save-btn inline-flex items-center">...</button>
+                            <button data-target-iframe="video-iframe-5-2" data-key="edit_video_btn_5_2" class="action-button edit-video-btn inline-flex items-center">...</button>
+                            <button data-target-pdf="pdf-link-5-2" data-key="edit_pdf_btn_5_2" class="action-button edit-pdf-btn inline-flex items-center">...</button>
                          </div>
                      </div>
                 </div>
                  <div id="topic-5-3" class="content-section">
-                     <div class="flex justify-between items-start">
-                         <h2 data-key="title_5_3" class="text-2xl font-semibold text-teal-300 mb-5">5.3 Process Management</h2>
-                         <button class="admin-edit-toggle admin-button" data-menu-target="admin-actions-5-3" title="Admin Actions"><i class="fas fa-cog"></i></button>
-                     </div>
+                     <h2 data-key="title_5_3" class="text-2xl font-semibold text-teal-300 mb-5">5.3 Process Management</h2>
                     <div class="pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_5_3" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe id="video-iframe-5-3" src="https://www.youtube.com/embed/placeholder_video_id_1_39" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> </div>
                     <div class="summary-wrapper"> <div id="toolbar-topic-5-3-summary" class="editor-toolbar"> ... </div> <div id="topic-5-3-summary" class="summary-content gradient-default prose prose-invert max-w-none text-gray-300"></div> </div>
                     <div class="action-buttons-container"> <a href="#" target="_blank" data-key="pdf_link_text_5_3" id="pdf-link-5-3" class="action-button inline-flex items-center">...</a>
+                        <button class="admin-edit-toggle admin-button" data-menu-target="admin-actions-5-3" title="Admin Actions"><i class="fas fa-cog"></i></button>
                         <div id="admin-actions-5-3" class="admin-actions-menu">
-                            <button data-summary-id="topic-5-3-summary" data-key="edit_btn_5_3" class="action-button edit-save-btn admin-button inline-flex items-center">...</button>
-                            <button data-target-iframe="video-iframe-5-3" data-key="edit_video_btn_5_3" class="action-button edit-video-btn admin-button inline-flex items-center">...</button>
-                            <button data-target-pdf="pdf-link-5-3" data-key="edit_pdf_btn_5_3" class="action-button edit-pdf-btn admin-button inline-flex items-center">...</button>
+                            <button data-summary-id="topic-5-3-summary" data-key="edit_btn_5_3" class="action-button edit-save-btn inline-flex items-center">...</button>
+                            <button data-target-iframe="video-iframe-5-3" data-key="edit_video_btn_5_3" class="action-button edit-video-btn inline-flex items-center">...</button>
+                            <button data-target-pdf="pdf-link-5-3" data-key="edit_pdf_btn_5_3" class="action-button edit-pdf-btn inline-flex items-center">...</button>
                         </div>
                     </div>
                  </div>
                  <div id="topic-5-4" class="content-section">
-                     <div class="flex justify-between items-start">
-                         <h2 data-key="title_5_4" class="text-2xl font-semibold text-teal-300 mb-5">5.4 Resource Management</h2>
-                         <button class="admin-edit-toggle admin-button" data-menu-target="admin-actions-5-4" title="Admin Actions"><i class="fas fa-cog"></i></button>
-                     </div>
+                     <h2 data-key="title_5_4" class="text-2xl font-semibold text-teal-300 mb-5">5.4 Resource Management</h2>
                     <div class="pt-6 border-t border-gray-600/50"> <h3 data-key="video_title_5_4" class="text-lg font-semibold text-gray-200 mb-4">Watch Video</h3> <div class="video-wrapper mb-6"> <iframe id="video-iframe-5-4" src="https://www.youtube.com/embed/placeholder_video_id_1_40" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> </div> </div>
                     <div class="summary-wrapper"> <div id="toolbar-topic-5-4-summary" class="editor-toolbar"> ... </div> <div id="topic-5-4-summary" class="summary-content gradient-default prose prose-invert max-w-none text-gray-300"></div> </div>
                     <div class="action-buttons-container"> <a href="#" target="_blank" data-key="pdf_link_text_5_4" id="pdf-link-5-4" class="action-button inline-flex items-center">...</a>
+                         <button class="admin-edit-toggle admin-button" data-menu-target="admin-actions-5-4" title="Admin Actions"><i class="fas fa-cog"></i></button>
                         <div id="admin-actions-5-4" class="admin-actions-menu">
-                            <button data-summary-id="topic-5-4-summary" data-key="edit_btn_5_4" class="action-button edit-save-btn admin-button inline-flex items-center">...</button>
-                            <button data-target-iframe="video-iframe-5-4" data-key="edit_video_btn_5_4" class="action-button edit-video-btn admin-button inline-flex items-center">...</button>
-                            <button data-target-pdf="pdf-link-5-4" data-key="edit_pdf_btn_5_4" class="action-button edit-pdf-btn admin-button inline-flex items-center">...</button>
+                            <button data-summary-id="topic-5-4-summary" data-key="edit_btn_5_4" class="action-button edit-save-btn inline-flex items-center">...</button>
+                            <button data-target-iframe="video-iframe-5-4" data-key="edit_video_btn_5_4" class="action-button edit-video-btn inline-flex items-center">...</button>
+                            <button data-target-pdf="pdf-link-5-4" data-key="edit_pdf_btn_5_4" class="action-button edit-pdf-btn inline-flex items-center">...</button>
                         </div>
                     </div>
                  </div>
@@ -451,7 +450,7 @@
         }
 
         // --- Admin Credentials (INSECURE - For Demo Only) ---
-        const ADMIN_EMAIL = "lxn000000@gmail.com";
+        // Removed ADMIN_EMAIL constant
         const ADMIN_PASSWORD = "e76DAaF1"; // WARNING: Password visible in source code!
 
         // --- Translation Data for Unit 5 ---
@@ -718,13 +717,11 @@
 
         // --- Function to check admin credentials (INSECURE) ---
         function checkAdminCredentials() {
-            const enteredEmail = prompt("Enter Admin Email:");
-            if (enteredEmail === null) return false; // User cancelled
-
+            // Removed email prompt
             const enteredPassword = prompt("Enter Admin Password:");
-            if (enteredPassword === null) return false; // User cancelled
+            if (enteredPassword === null) return false; // User cancelled password prompt
 
-            if (enteredEmail === ADMIN_EMAIL && enteredPassword === ADMIN_PASSWORD) {
+            if (enteredPassword === ADMIN_PASSWORD) { // Only check password
                 console.log("Admin credentials verified (client-side).");
                 return true;
             } else {
@@ -817,7 +814,7 @@
             const actionMenu = button.closest('.admin-actions-menu');
 
             // Check credentials before proceeding
-            if (!checkAdminCredentials()) {
+            if (!checkAdminCredentials()) { // Calls the updated function
                  if (actionMenu) actionMenu.classList.remove('active'); // Close menu on fail
                 return;
             }
@@ -1135,10 +1132,13 @@
                 // Toggle the target menu
                 if (targetMenu) {
                     targetMenu.classList.toggle('active');
+                    console.log(`Toggled menu: ${menuId}, Active: ${targetMenu.classList.contains('active')}`); // Debug log
+                } else {
+                     console.error(`Target menu not found for ID: ${menuId}`); // Debug log
                 }
             }
             // --- Specific Admin Action Button Click (inside menu) ---
-             else if (targetButton && targetButton.classList.contains('admin-button') && !targetButton.classList.contains('admin-edit-toggle')) {
+             else if (targetButton && targetButton.closest('.admin-actions-menu')) { // Check if click is inside *any* menu
                  // Trigger password check before action
                  handleAdminAction(targetButton);
              }
